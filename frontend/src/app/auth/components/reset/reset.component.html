@@ -1,0 +1,34 @@
+<div class="container">
+  <app-header></app-header>
+  <div class="container d-flex justify-content-center align-items-center my-5">
+    <div class="form-container col-md-6 col-xs-12 col-sm-12 p-4">
+      <p class="h3 text-center py-2 text-capitalize">reset password</p>
+      <form (ngSubmit)="resetSubmit()" class="form">
+        <p>
+          Forgotten your password? Enter your email address below to receive an
+          email reset password
+        </p>
+
+        <div class="form-group mb-3">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            name="email"
+            class="form-control"
+            id="email"
+            placeholder="Enter your registered email"
+          />
+        </div>
+        <div class="form-group">
+          <input
+            type="submit"
+            name="submit"
+            value="Reset"
+            class="btn btn-primary form-control"
+            id="submit"
+          />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
