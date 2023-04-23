@@ -1,0 +1,81 @@
+<div class="container">
+  <app-header></app-header>
+  <app-cards></app-cards>
+  <div class="container d-flex justify-content-center align-items-center my-5">
+    <div class="form-container col-md-6 col-xs-12 col-sm-12 p-4">
+      <p class="h3 text-center py-2 text-uppercase">accomodation</p>
+      <form (submit)="accomodationSubmit()" class="form">
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Accomodation</th>
+              <th scope="col">Seats</th>
+              <th scope="col">Fare (KSH)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="acc-type"
+                    id="acc-economy"
+                    value="Economy"
+                  />
+                  <label class="form-check-label" for="acc-economy">
+                    Economy
+                  </label>
+                </div>
+              </td>
+              <td>500</td>
+              <td>4</td>
+            </tr>
+            <tr>
+              <td>
+                <!-- <input #radio type="radio" name="accomodation" value="Vip" />
+                Vip -->
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="acc-type"
+                    id="acc-vip"
+                    value="Vip"
+                  />
+                  <label class="form-check-label" for="acc-vip">
+                    Vip
+                  </label>
+                </div>
+              </td>
+              <td>200</td>
+              <td>3500</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="form-group mb-3">
+          <label for="no-pass">Number of Passengers</label>
+          <input
+            type="number"
+            min="0"
+            class="form-control"
+            id="no-pass"
+            name="no-pass"
+          />
+        </div>
+
+        <div class="form-group col-md-3 col-sm-12 col-xs-12">
+          <a routerLink="/passenger" class="btn btn-primary">NEXT</a>
+          <!-- <input
+            type="submit"
+            name="submit"
+            value="NEXT"
+            class="btn btn-primary form-control"
+            id="submit"
+          /> -->
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

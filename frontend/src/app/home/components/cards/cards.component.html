@@ -1,0 +1,20 @@
+<div class="container my-4">
+  <div class="row justify-content-center align-items-center">
+    <div class="col-md-2 col-sm-12 col-xs-12 border border-1 py-2 px-2 mx-2" [ngClass]="{'border-5': url == '/routing', 'border-primary': url == '/routing'}">
+      <p class="text-uppercase">1. routing</p>
+      <p class="text-capitalize">Schedule of travel</p>
+    </div>
+    <div class="col-md-2 col-sm-12 col-xs-12 border border-1 py-2 px-2 mx-2" [ngClass]="{'border-5': url == '/accomodation', 'border-primary': url == '/accomodation'}">
+      <p class="text-uppercase">2. accomodation</p>
+      <p class="text-capitalize">accomodation type</p>
+    </div>
+    <div class="col-md-2 col-sm-12 col-xs-12 border border-1 py-2 px-2 mx-2" [ngClass]="{'border-5': url == '/passenger', 'border-primary': url == '/passenger'}">
+      <p class="text-uppercase">3. passenger info</p>
+      <p class="text-capitalize">passenger details</p>
+    </div>
+    <div class="col-md-2 col-sm-12 col-xs-12 border border-1 py-2 px-2 mx-2" [ngClass]="{'border-5': url == '/payment', 'border-primary': url == '/payment'}">
+      <p class="text-uppercase">4. payment info</p>
+      <p class="text-capitalize">payment details</p>
+    </div>
+  </div>
+</div>
