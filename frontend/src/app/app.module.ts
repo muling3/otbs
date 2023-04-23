@@ -11,6 +11,7 @@ import { PaymentPageComponent } from './home/components/payment.page/payment.pag
 import { NavbarPageComponent } from './home/components/navbar.page/navbar.page.component';
 import { HeaderComponent } from './home/components/header/header.component';
 import { CardsComponent } from './home/components/cards/cards.component';
+import { AccountComponent } from './home/components/account/account.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { CardsComponent } from './home/components/cards/cards.component';
     PaymentPageComponent,
     NavbarPageComponent,
     HeaderComponent,
-    CardsComponent
+    CardsComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,
