@@ -12,4 +12,7 @@ export class PassengerPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  passengersSubmit(): void {
+    
+  }
 }

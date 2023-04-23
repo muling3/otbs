@@ -1,1 +1,72 @@
-<p>payment.page works!</p>
+<div class="container">
+  <app-header></app-header>
+  <app-cards></app-cards>
+  <div class="container d-flex justify-content-center align-items-center my-5">
+    <div class="form-container col-md-6 col-xs-12 col-sm-12 p-4">
+      <p class="h3 text-center py-2 text-uppercase">payment</p>
+      <div class="card text-white bg-secondary mb-3" style="max-width: 100%">
+        <div class="card-header text-center">OTBS Booking Information Overview</div>
+        <div class="card-body">
+          <p class="card-text">
+            Accomodation Type: &nbsp;&nbsp; <span class="fw-bold">Economy</span>
+          </p>
+          <p class="card-text">
+            Departure date: &nbsp;&nbsp; <span class="fw-bold">12/12/2023</span>
+          </p>
+          <p class="card-text">
+            Departure date: &nbsp;&nbsp; <span class="fw-bold">15 - Hrs</span>
+          </p>
+        </div>
+      </div>
+      <div class="card text-white bg-secondary mb-3" style="max-width: 100%">
+        <div class="card-header">Contact Info</div>
+        <div class="card-body">
+          <p class="card-text">
+            Booked by: &nbsp;&nbsp; <span class="fw-bold">Economy</span>
+          </p>
+          <p class="card-text">
+            Booking Contact: &nbsp;&nbsp; <span class="fw-bold">12/12/2023</span>
+          </p>
+          <p class="card-text">
+            Booking Address: &nbsp;&nbsp; <span class="fw-bold">15 - Hrs</span>
+          </p>
+        </div>
+      </div>
+      <div class="card text-white bg-secondary mb-3" style="max-width: 100%">
+        <div class="card-header">Passenger Info</div>
+        <div class="card-body">
+          <table class="table table-hover table-bordered text-white">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Age</th>
+              <th scope="col">Gender</th>
+              <th scope="col">Fare(KSHS)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Alexander Muli</td>
+              <td>23</td>
+              <td>Male</td>
+              <td>5000</td>
+            </tr>
+            <tr class="text-dark fw-bold">
+              <td colspan="3">TOTAL</td>
+              <td>5000</td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+      <div class="container d-flex justify-content-end align-items-center">
+        <div>
+          <a routerLink="" class="btn btn-primary mx-2">Confirm Booking</a>
+        </div>
+        <div>
+          <a routerLink="" class="btn btn-warning mx-2">Cancel Booking</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
