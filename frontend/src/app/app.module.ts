@@ -12,6 +12,7 @@ import { NavbarPageComponent } from './home/components/navbar.page/navbar.page.c
 import { HeaderComponent } from './home/components/header/header.component';
 import { CardsComponent } from './home/components/cards/cards.component';
 import { AccountComponent } from './home/components/account/account.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { AccountComponent } from './home/components/account/account.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NoopAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
