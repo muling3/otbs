@@ -4,16 +4,16 @@
   <div class="container d-flex justify-content-center align-items-center my-5">
     <div class="form-container col-md-6 col-xs-12 col-sm-12 p-4">
       <p class="h3 text-center py-2 text-uppercase">routing</p>
-      <form (ngSubmit)="routingSubmit()" class="form">
+      <form (ngSubmit)="routingSubmit()" class="form" #routingForm="ngForm">
         <div class="form-group mb-3">
           <label for="from">From</label>
-          <select class="form-control" id="from">
+          <select class="form-control" id="from" name="departure" ngModel>
             <option [value]="s" *ngFor="let s of stations">{{ s }}</option>
           </select>
         </div>
         <div class="form-group mb-3">
-          <label for="from">Destination</label>
-          <select class="form-control" id="from">
+          <label for="to">Destination</label>
+          <select class="form-control" id="to" name="destination" ngModel>
             <option [value]="s" *ngFor="let s of stations.reverse()">
               {{ s }}
             </option>
@@ -21,12 +21,12 @@
         </div>
         <div class="form-group mb-3">
           <label for="dot">Date of travel</label>
-          <input type="date" name="dot" class="form-control" id="dot" />
+          <input type="date" [min]="todayFormattedDate" name="travel_date" class="form-control" id="dot" ngModel/>
         </div>
 
         <div class="form-group mb-3">
           <label for="time">Travel time</label>
-          <select class="form-control" id="time">
+          <select class="form-control" name="travel_time" id="time" ngModel>
             <option value="Morning - 0800 Hrs" [defaultSelected]="">
               Morning - 0800 Hrs
             </option>
@@ -36,14 +36,13 @@
         </div>
 
         <div class="form-group col-md-3 col-sm-12 col-xs-12">
-            <a routerLink="/accomodation" class="btn btn-primary">NEXT</a>
-          <!-- <input
+          <input
             type="submit"
             name="submit"
             value="NEXT"
             class="btn btn-primary form-control"
             id="submit"
-          /> -->
+          />
         </div>
       </form>
     </div>

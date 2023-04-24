@@ -20,6 +20,9 @@ export class LoginComponent implements OnInit {
     this.authService.loginUser(form.value).subscribe(
       (d) => {
         if (d) {
+          // store username in local storage
+          localStorage.setItem("user", form.value.username)
+          //navigate user to a new route
           this.route.navigate(['/']);
           form.reset();
         }

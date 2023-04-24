@@ -88,27 +88,25 @@ const confirmReservation = async (req, res) => {
 };
 
 //PLACEHOLDER ENDPOINTS
-const createPlaceholder = async (req, res) => {
+const createPlaceholder = async (req, res, next) => {
   try {
     const placeholder = await Placeholder.create(req.body);
-    res.status(200).send(placeholder);
+    res.status(200).json({_id: placeholder._id});
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error occurred while getting placeholder" });
+    res.status(500)
+    next(error);
   }
 };
 
 //getPlaceholder
-const getPlaceholder = async (req, res) => {
-  const booked_by = req.params.username;
+const getPlaceholder = async (req, res, next) => {
+  const id = req.params.id;
   try {
-    const placeholder = await Placeholder.findOne({ booked_by });
-    res.status(200).send(placeholder);
+    const placeholder = await Placeholder.findById(id);
+    res.status(200).json({fare: placeholder.fare});
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error occurred while getting placeholder" });
+    console.log(error)
+    next(error)
   }
 };
 
@@ -123,9 +121,9 @@ const updatePlaceholder = async (req, res) => {
       },
       { new: true }
     );
-    res.status(200).send(updated);
+    res.status(200).json({message: "Updated successfully"})
   } catch (error) {
-    res.status(500).json({ message: "Error occurred while updating" });
+    next(error)
   }
 };
 
@@ -136,7 +134,7 @@ const clearPlaceholder = async (req, res) => {
     const cleared = await Placeholder.findByIdAndDelete(id);
     res.status(200).send(cleared);
   } catch (error) {
-    res.status(500).json({ message: "Error occurred while clearing" });
+    next("Error occurred while clearing");
   }
 };
 module.exports = {

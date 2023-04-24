@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { BookingService } from '../../services/booking.service';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-accomodation',
@@ -7,11 +10,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccomodationPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private bookingService: BookingService, private route: Router) { }
 
+  placeholderId: string = ''
+  placeholderFare!: number
+
+  @ViewChild('accomodationForm') accomodationForm!: NgForm
   ngOnInit(): void {
-  }
+    this.placeholderId = localStorage.getItem("id") as string
 
-  accomodationSubmit(): void{}
+    //get existing placeholder
+    this.bookingService.getPlaceholder(this.placeholderId).subscribe(data => {
+      if(data){
+        this.placeholderFare = data.fare!
+      }
+    })
+  }
+  
+  accomodationSubmit(): void{
+    //set number of passengers to localstorage
+    localStorage.setItem("np", this.accomodationForm.value['no-pass'])
+
+    //update plaeholder
+    this.bookingService.updatePlaceholder(this.accomodationForm.value, this.placeholderId).subscribe(data => {
+        this.route.navigate(["/passenger"])
+    })
+  }
 
 }

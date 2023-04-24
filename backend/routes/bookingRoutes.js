@@ -16,7 +16,7 @@ const router = require("express").Router();
 
 //placeholder endpoints
 router.post("/placeholder", createPlaceholder);
-router.get("/placeholder/:username", getPlaceholder);
+router.get("/placeholder/:id", getPlaceholder);
 router.put("/placeholder/:id", updatePlaceholder);
 router.delete("/placeholder/:id", clearPlaceholder);
 
