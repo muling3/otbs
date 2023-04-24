@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { BookingService } from '../../services/booking.service';
+import { BookingModel } from '../../models/booking.model';
 
 @Component({
   selector: 'app-payment.page',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PaymentPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private bookingService: BookingService) { }
 
-  ngOnInit(): void {}
+  placeholderId: string = ''
+  placeholderItem!: BookingModel
+  ngOnInit(): void {
+    this.placeholderId = localStorage.getItem('id') as string;
+
+    this.bookingService.getPlaceholder(this.placeholderId).subscribe(data => {
+      if(data){
+        this.placeholderItem = data
+        console.log(this.placeholderItem)
+      }
+    })
+  }
 
   summarySubmit(): void{}
 }

@@ -41,13 +41,26 @@ export class PassengerPageComponent implements OnInit {
         pass_name: this.passengerForm.value[`pass_name_${i}`],
       };
     }
+
+    //updating passengers array
     this.bookingService
       .updatePlaceholderAddPassengers(
         this.passengersDetailsArray,
         this.placeholderId
       )
       .subscribe((data) => {
-        this.route.navigate(['/payment']);
+        //creating contact and addreess
+        this.bookingService
+          .updatePlaceholder(
+            {
+              contact: this.passengerForm.value[`contact`],
+              address: this.passengerForm.value[`address`],
+            },
+            this.placeholderId
+          )
+          .subscribe((data) => {
+            this.route.navigate(['/payment']);
+          });
       });
   }
 }

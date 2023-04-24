@@ -103,9 +103,8 @@ const getPlaceholder = async (req, res, next) => {
   const id = req.params.id;
   try {
     const placeholder = await Placeholder.findById(id);
-    res.status(201).json({fare: placeholder.fare});
+    res.status(201).json({...placeholder});
   } catch (error) {
-    console.log(error)
     next(error)
   }
 };
