@@ -1,3 +1,5 @@
+import { PassengerModel } from "./passenger.model";
+
 export class BookingModel {
   _id?: string;
   booked_by?: string;
@@ -8,8 +10,6 @@ export class BookingModel {
   travel_date?: string;
   travel_time?: string;
   accomodation?: string;
-  pass_name?: string;
-  pass_age?: string;
-  pass_gender?: string;
+  passengers?: PassengerModel[];
   fare?: number;
 }
