@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BookingService } from '../../services/booking.service';
 import { BookingModel } from '../../models/booking.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-payment.page',
@@ -8,7 +9,7 @@ import { BookingModel } from '../../models/booking.model';
   styleUrls: ['./payment.page.component.scss'],
 })
 export class PaymentPageComponent implements OnInit {
-  constructor(private bookingService: BookingService) {}
+  constructor(private bookingService: BookingService, private route: Router) {}
 
   placeholderId: string = '';
   placeholderItem!: BookingModel;
@@ -25,5 +26,21 @@ export class PaymentPageComponent implements OnInit {
     });
   }
 
-  summarySubmit(): void {}
+  confirmButton(): void {
+    //updating user_confirmed
+    this.bookingService
+      .updatePlaceholder(
+        {
+          user_confirmed: true,
+        },
+        this.placeholderId
+      )
+      .subscribe((data) => {
+        this.route.navigate(['/account']);
+      });
+  }
+
+  cancelButton(): void {
+    this.route.navigate(['/']);
+  }
 }

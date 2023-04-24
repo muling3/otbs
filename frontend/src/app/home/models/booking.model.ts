@@ -12,4 +12,6 @@ export class BookingModel {
   accomodation?: string;
   passengers?: PassengerModel[];
   fare?: number;
+  user_confirmed?: boolean;
+  admin_confirmed?: boolean;
 }

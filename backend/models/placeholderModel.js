@@ -17,6 +17,8 @@ const PlaceholderSchema = mongoose.Schema({
   destination: { type: String, default: "" },
   travel_date: { type: String, default: "" },
   travel_time: { type: String, default: "" },
+  user_confirmed: {type: Boolean, default: false},
+  admin_confirmed: {type: Boolean, default: false},
 });
 
 module.exports = mongoose.model("Placeholder", PlaceholderSchema);
