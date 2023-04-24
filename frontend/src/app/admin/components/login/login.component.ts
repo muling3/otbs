@@ -17,7 +17,6 @@ export class LoginComponent implements OnInit {
     this.authService.loginAdmin(form.value).subscribe(
       (d) => {
         if (d) {
-          console.log(d)
           // store username in local storage
           localStorage.setItem('admin', d.username);
 
