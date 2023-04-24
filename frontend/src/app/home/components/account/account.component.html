@@ -57,7 +57,10 @@
         >
           <div class="ms-2 me-auto">
             <div class="fw-bold"><a routerLink="#">{{ booking.travel_date}} - {{ booking.travel_time }}</a></div>
-            Booking for {{ booking.passengers?.length }} Persons
+            Booking for {{ booking.passengers?.length }} Persons <span *ngIf="booking.admin_confirmed; else pending" class="bg-success text-white rounded px-1">Approved</span>
+            <ng-template #pending>
+              <span class="bg-warning text-white rounded px-1">Pending</span>
+            </ng-template>
           </div>
           <span class="badge bg-primary rounded-pill">{{ booking.passengers?.length }}</span>
         </li>
