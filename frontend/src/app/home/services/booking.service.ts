@@ -34,4 +34,18 @@ export class BookingService {
   clearPlaceholder(id: string) {
     return this.http.delete<BookingModel>(this.API_URL + 'placeholder/' + id);
   }
+
+  //getUseerPendingBookings
+  getUserPendingBookings(username: string) {
+    return this.http.get<BookingModel[]>(
+      this.API_URL + username + '/pending'
+    );
+  }
+
+  //getUseerConfirmedBookings
+  getUserConfirmedBookings(username: string) {
+    return this.http.get<BookingModel[]>(
+      this.API_URL + username + '/confirmed'
+    );
+  }
 }

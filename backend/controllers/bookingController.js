@@ -3,7 +3,9 @@ const Placeholder = require("../models/placeholderModel");
 
 const confirmedBookings = async (req, res) => {
   try {
-    const bookings = await Bookings.find({ confirmed: true }).sort({ _id: -1 });
+    const bookings = await Bookings.find({ admin_confirmed: true }).sort({
+      _id: -1,
+    });
     res.status(200).send(bookings);
   } catch (error) {
     res.status(500).json({ message: "Error occurred" });
@@ -11,7 +13,10 @@ const confirmedBookings = async (req, res) => {
 };
 const pendingBookings = async (req, res) => {
   try {
-    const bookings = await Bookings.find({ confirmed: false }).sort({
+    const bookings = await Placeholder.find({
+      user_confirmed: true,
+      admin_confirmed: false,
+    }).sort({
       _id: -1,
     });
     res.status(200).send(bookings);
@@ -23,7 +28,10 @@ const pendingBookings = async (req, res) => {
 const confirmedUserBookngs = async (req, res) => {
   const booked_by = req.params.username;
   try {
-    const bookings = await Bookings.find({ booked_by, confirmed: true }).sort({
+    const bookings = await Bookings.find({
+      booked_by,
+      admin_confirmed: true,
+    }).sort({
       _id: -1,
     });
     res.status(200).send(bookings);
@@ -36,7 +44,11 @@ const confirmedUserBookngs = async (req, res) => {
 const pendingUserBookngs = async (req, res) => {
   try {
     const booked_by = req.params.username;
-    const bookings = await Bookings.find({ booked_by, confirmed: false }).sort({
+    const bookings = await Placeholder.find({
+      booked_by,
+      user_confirmed: true,
+      admin_confirmed: false,
+    }).sort({
       _id: -1,
     });
     res.status(200).send(bookings);
@@ -91,9 +103,9 @@ const confirmReservation = async (req, res) => {
 const createPlaceholder = async (req, res, next) => {
   try {
     const placeholder = await Placeholder.create(req.body);
-    res.status(200).json({_id: placeholder._id});
+    res.status(200).json({ _id: placeholder._id });
   } catch (error) {
-    res.status(500)
+    res.status(500);
     next(error);
   }
 };
@@ -103,9 +115,9 @@ const getPlaceholder = async (req, res, next) => {
   const id = req.params.id;
   try {
     const placeholder = await Placeholder.findById(id);
-    res.status(201).json({...placeholder._doc});
+    res.status(201).json({ ...placeholder._doc });
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
@@ -120,9 +132,9 @@ const updatePlaceholder = async (req, res) => {
       },
       { new: true }
     );
-    res.status(201).json({message: "Updated successfully"})
+    res.status(201).json({ message: "Updated successfully" });
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
@@ -133,13 +145,13 @@ const updatePlaceholderAddPassengers = async (req, res) => {
     const updated = await Placeholder.findByIdAndUpdate(
       id,
       {
-        $push: { "passengers" : {$each: req.body}},
+        $push: { passengers: { $each: req.body } },
       },
       { new: true }
     );
-    res.status(200).json({message: "Updated successfully"})
+    res.status(200).json({ message: "Updated successfully" });
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
@@ -153,6 +165,7 @@ const clearPlaceholder = async (req, res) => {
     next("Error occurred while clearing");
   }
 };
+
 module.exports = {
   confirmedBookings,
   pendingBookings,

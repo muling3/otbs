@@ -8,6 +8,17 @@ const allUsers = async (req, res, next) => {
     res.status(500).json({ message: "Error occurred" });
   }
 };
+
+const getUser = async (req, res, next) => {
+  try {
+    let username = req.params.username
+    const user = await User.findOne({username});
+    res.status(200).send(user);
+  } catch (error) {
+    res.status(500).json({ message: "Error occurred" });
+  }
+};
+
 const loginUser = async (req, res, next) => {
   const { username, password } = req.body;
   //juouhoy
@@ -65,4 +76,4 @@ const registerUser = async (req, res, next) => {
     next(error);
   }
 };
-module.exports = { loginUser, registerUser, allUsers };
+module.exports = { loginUser, registerUser, allUsers, getUser };

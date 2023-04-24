@@ -36,7 +36,7 @@ export class PaymentPageComponent implements OnInit {
         this.placeholderId
       )
       .subscribe((data) => {
-        this.route.navigate(['/account']);
+        this.route.navigate(['/user']);
       });
   }
 
