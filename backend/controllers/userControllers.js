@@ -1,6 +1,6 @@
 const User = require("../models/userModel");
 
-const allUsers = async (req, res) => {
+const allUsers = async (req, res, next) => {
   try {
     const users = await User.find().sort({ _id: -1 });
     res.status(200).json({ users });
@@ -8,37 +8,48 @@ const allUsers = async (req, res) => {
     res.status(500).json({ message: "Error occurred" });
   }
 };
-const loginUser = async (req, res) => {
+const loginUser = async (req, res, next) => {
   const { username, password } = req.body;
   //juouhoy
   try {
     if (!username && !password) {
-      res
-        .status(400)
-        .json({ message: "Please make sure all the fileds are filled" });
+      res.status(400);
+      throw new Error("Please make sure all the fields are filled");
     }
     const users = await User.find({ username, password });
 
     //confirm whether user exists by that username
     if (users.length > 0) {
-      console.log(users);
-
       //generate token function will be here
       res.status(200).json({ user: users });
     } else {
-      res.status(404).json({ message: "User not found" });
+      res.status(404);
+      throw new Error("Username does not exist");
     }
   } catch (error) {
-    res.status(500).json({ message: "Error occurred" });
+    next(error);
   }
 };
 
-const registerUser = async (req, res) => {
+const registerUser = async (req, res, next) => {
   try {
+    //ensure fields have been provided
+    if (
+      !req.body.firstname &&
+      !req.body.lastname &&
+      !req.body.username &&
+      !req.body.email &&
+      !req.body.password
+    ) {
+      res.status(400);
+      throw new Error("Please make sure all the fields are filled");
+    }
+
     //search user with the username
     const users = await User.find({ username: req.body.username });
     if (users.length > 0) {
-      return res.status(409).json({ message: "Username already exists" });
+      res.status(409);
+      throw new Error("Username already exists");
     }
 
     const user = await User.create({
@@ -51,7 +62,7 @@ const registerUser = async (req, res) => {
 
     res.status(201).json({ user: user });
   } catch (error) {
-    res.status(500).json({ message: "Error occurred" });
+    next(error);
   }
 };
 module.exports = { loginUser, registerUser, allUsers };

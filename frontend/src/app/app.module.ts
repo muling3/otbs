@@ -14,6 +14,8 @@ import { CardsComponent } from './home/components/cards/cards.component';
 import { AccountComponent } from './home/components/account/account.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +32,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
