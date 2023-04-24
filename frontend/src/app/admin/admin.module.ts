@@ -6,8 +6,9 @@ import { AdminRouting } from './admin.routing.module';
 import { TransactionComponent } from './components/transaction/transaction.component';
 import { ReservationComponent } from './components/reservation/reservation.component';
 
-import {MatTableModule} from '@angular/material/table';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,12 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     TransactionComponent,
     ReservationComponent,
   ],
-  imports: [CommonModule, AdminRouting, MatTableModule, MatPaginatorModule],
+  imports: [
+    CommonModule,
+    AdminRouting,
+    MatTableModule,
+    MatPaginatorModule,
+    FormsModule,
+  ],
 })
 export class AdminModule {}

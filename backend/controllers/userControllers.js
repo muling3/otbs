@@ -19,6 +19,30 @@ const getUser = async (req, res, next) => {
   }
 };
 
+const loginAdmin = async (req, res, next) => {
+  const { email, password } = req.body;
+  //juouhoy
+  try {
+    if (!email && !password) {
+      res.status(400);
+      throw new Error("Please make sure all the fields are filled");
+    }
+    const users = await User.find({email, password, roles: { $all: ["ROLE_ADMIN", "ROLE_USER"] } } , {username: 1, email: 1})
+
+    //confirm whether user exists by that username
+    if (users.length > 0) {
+      //generate token function will be here
+      res.status(200).send({ user: users });
+    } else {
+      res.status(404);
+      throw new Error("Username does not exist");
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 const loginUser = async (req, res, next) => {
   const { username, password } = req.body;
   //juouhoy
@@ -76,4 +100,4 @@ const registerUser = async (req, res, next) => {
     next(error);
   }
 };
-module.exports = { loginUser, registerUser, allUsers, getUser };
+module.exports = { loginAdmin, loginUser, registerUser, allUsers, getUser };

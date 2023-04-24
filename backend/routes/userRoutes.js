@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const {
+  loginAdmin,
   loginUser,
   registerUser,
   allUsers,
@@ -9,6 +10,7 @@ const {
 router.get("/", allUsers);
 router.get("/:username", getUser);
 router.post("/login", loginUser);
+router.post("/admin", loginAdmin)
 router.post("/register", registerUser);
 
 module.exports = router;
