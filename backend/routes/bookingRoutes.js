@@ -9,6 +9,7 @@ const {
   createPlaceholder,
   getPlaceholder,
   updatePlaceholder,
+  updatePlaceholderAddPassengers,
   clearPlaceholder,
 } = require("../controllers/bookingController");
 
@@ -18,6 +19,7 @@ const router = require("express").Router();
 router.post("/placeholder", createPlaceholder);
 router.get("/placeholder/:id", getPlaceholder);
 router.put("/placeholder/:id", updatePlaceholder);
+router.put("/passengers/:id", updatePlaceholderAddPassengers);
 router.delete("/placeholder/:id", clearPlaceholder);
 
 //other end points

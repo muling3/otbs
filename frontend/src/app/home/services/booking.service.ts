@@ -4,7 +4,7 @@ import { BookingModel } from '../models/booking.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BookingService {
   constructor(private http: HttpClient) {}
@@ -13,15 +13,10 @@ export class BookingService {
 
   //placeholdeer service implementations
   createPlaceholder(data: BookingModel): Observable<BookingModel> {
-    return this.http.post<BookingModel>(
-      this.API_URL + 'placeholder/',
-      data
-    );
+    return this.http.post<BookingModel>(this.API_URL + 'placeholder/', data);
   }
   getPlaceholder(id: string) {
-    return this.http.get<BookingModel>(
-      this.API_URL + 'placeholder/' + id
-    );
+    return this.http.get<BookingModel>(this.API_URL + 'placeholder/' + id);
   }
   updatePlaceholder(data: BookingModel, id: string) {
     return this.http.put<BookingModel>(
@@ -29,10 +24,14 @@ export class BookingService {
       data
     );
   }
-  clearPlaceholder(id: string) {
-    return this.http.delete<BookingModel>(
-      this.API_URL + 'placeholder/' + id
-    );
-  }
 
+  updatePlaceholderAddPassengers(
+    data: { pass_name: string; pass_age: string; pass_gender: string }[],
+    id: string
+  ) {
+    return this.http.put<BookingModel>(this.API_URL + 'passengers/' + id, data);
+  }
+  clearPlaceholder(id: string) {
+    return this.http.delete<BookingModel>(this.API_URL + 'placeholder/' + id);
+  }
 }

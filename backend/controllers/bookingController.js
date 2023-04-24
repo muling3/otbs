@@ -103,7 +103,7 @@ const getPlaceholder = async (req, res, next) => {
   const id = req.params.id;
   try {
     const placeholder = await Placeholder.findById(id);
-    res.status(200).json({fare: placeholder.fare});
+    res.status(201).json({fare: placeholder.fare});
   } catch (error) {
     console.log(error)
     next(error)
@@ -118,6 +118,23 @@ const updatePlaceholder = async (req, res) => {
       id,
       {
         $set: req.body,
+      },
+      { new: true }
+    );
+    res.status(201).json({message: "Updated successfully"})
+  } catch (error) {
+    next(error)
+  }
+};
+
+//update
+const updatePlaceholderAddPassengers = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const updated = await Placeholder.findByIdAndUpdate(
+      id,
+      {
+        $push: { "passengers" : {$each: req.body}},
       },
       { new: true }
     );
@@ -149,5 +166,6 @@ module.exports = {
   getPlaceholder,
   updatePlaceholder,
   updatePlaceholder,
+  updatePlaceholderAddPassengers,
   clearPlaceholder,
 };

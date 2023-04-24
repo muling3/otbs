@@ -4,7 +4,7 @@
   <div class="container d-flex justify-content-center align-items-center my-5">
     <div class="form-container col-md-6 col-xs-12 col-sm-12 p-4">
       <p class="h3 text-center py-2 text-uppercase">passenger info</p>
-      <form (ngSubmit)="passengersSubmit()" class="form">
+      <form (ngSubmit)="passengersSubmit()" class="form" #passengerForm="ngForm">
         <div class="form-group mb-3">
           <label for="booking-name">Booking person name</label>
           <input
@@ -12,7 +12,8 @@
             name="booking-name"
             class="form-control"
             id="booking-name"
-            placeholder="Booking person name"
+            [value]="username"
+            readonly
           />
         </div>
         <div class="form-group mb-3">
@@ -26,6 +27,7 @@
             class="form-control"
             id="booking-contact"
             placeholder="Booking person contact"
+            ngModel
           />
         </div>
         <div class="form-group mb-3">
@@ -36,19 +38,21 @@
             class="form-control"
             id="booking-address"
             placeholder="Booking person address"
+            ngModel
           />
         </div>
 
-        <div class="card bg-secondary p-2 my-2">
-          <p class="h5 text-center py-2 text-capitalize">passenger(1)</p>
+        <div class="card bg-secondary p-2 my-2" *ngFor="let passenger of passengersDummyArray">
+          <p class="h5 text-center py-2 text-capitalize">passenger({{ passenger }})</p>
           <div class="form-group mb-3">
             <label for="passenger-name">Passenger Name</label>
             <input
               type="text"
-              name="passenger-name"
+              name="pass_name_{{passenger}}"
               class="form-control"
               id="passenger-name"
               placeholder="Passenger name"
+              ngModel
             />
           </div>
           <div class="form-group mb-3">
@@ -56,30 +60,30 @@
             <input
               type="number"
               min="1"
-              name="passenger-age"
+              name="pass_age_{{passenger}}"
               class="form-control"
               id="passenger-age"
               placeholder="Passenger age"
+              ngModel
             />
           </div>
           <div class="form-group mb-3">
             <label for="gender">Passenger Gender</label>
-            <select class="form-control" id="gender">
+            <select class="form-control" id="gender" name="pass_gender_{{passenger}}" ngModel>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
             </select>
           </div>
         </div>
 
-        <div class="form-group">
-          <a routerLink="/payment" class="btn btn-primary">NEXT</a>
-          <!-- <input
+        <div class="form-group col-md-3 col-sm-12 col-xs-12">
+          <input
             type="submit"
             name="submit"
-            value="Sign In"
+            value="NEXT"
             class="btn btn-primary form-control"
             id="submit"
-          /> -->
+          />
         </div>
       </form>
     </div>

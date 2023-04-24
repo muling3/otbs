@@ -4,9 +4,13 @@ const PlaceholderSchema = mongoose.Schema({
   booked_by: { type: String, required: true },
   contact: { type: String, default: "" },
   address: { type: String, default: "" },
-  pass_name: { type: String, default: "" },
-  pass_age: { type: Number, default: 0 },
-  pass_gender: { type: String, default: "" },
+  passengers: [
+    {
+      pass_name: { type: String, default: "" },
+      pass_age: { type: Number, default: 0 },
+      pass_gender: { type: String, default: "" },
+    },
+  ],
   accomodation: { type: String, default: "" },
   fare: { type: Number, default: 0 },
   departure: { type: String, default: "" },
