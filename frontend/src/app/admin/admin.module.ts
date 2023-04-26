@@ -9,6 +9,9 @@ import { ReservationComponent } from './components/reservation/reservation.compo
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
+import { ModalComponent } from './components/modal/modal.component';
+
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -16,12 +19,14 @@ import { FormsModule } from '@angular/forms';
     HeaderComponent,
     TransactionComponent,
     ReservationComponent,
+    ModalComponent
   ],
   imports: [
     CommonModule,
     AdminRouting,
     MatTableModule,
     MatPaginatorModule,
+    MatDialogModule,
     FormsModule,
   ],
 })

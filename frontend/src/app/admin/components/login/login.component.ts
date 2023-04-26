@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('admin', d.username);
 
           //navigate user to a new route
-          this.route.navigate(['/admin/transactions']);
+          this.route.navigate(['/admin/reservations']);
           form.reset();
         }
       },

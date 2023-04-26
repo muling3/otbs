@@ -12,11 +12,14 @@ import { NavbarPageComponent } from './home/components/navbar.page/navbar.page.c
 import { HeaderComponent } from './home/components/header/header.component';
 import { CardsComponent } from './home/components/cards/cards.component';
 import { AccountComponent } from './home/components/account/account.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { ModalComponent } from './home/components/modal/modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,14 +31,16 @@ import { FormsModule } from '@angular/forms';
     NavbarPageComponent,
     HeaderComponent,
     CardsComponent,
-    AccountComponent
+    AccountComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NoopAnimationsModule,
+    BrowserAnimationsModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

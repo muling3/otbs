@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>
+  {{ data.travelDate }}&nbsp; - &nbsp;{{ data.travelTime }}
+</h2>
+<mat-dialog-content class="mat-typography">
+  <h4 class="text-decoration-underline">Booking Details</h4>
+  <div class="my-2">
+    <p>
+      Departure Station: <span class="fw-bold">{{ data.from }}</span>
+    </p>
+    <p>
+      Destination: <span class="fw-bold">{{ data.to }}</span>
+    </p>
+    <p>
+      Accomodation: <span class="fw-bold">{{ data.accomodation }}</span>
+    </p>
+    <p>
+      Total Fare Paid: <span class="fw-bold">{{ data.fare * data.passengers.length }}</span>
+    </p>
+  </div>
+
+  <!-- //passenger info -->
+  <div class="p-1">
+    <h4 class="text-decoration-underline">Passengers Booked</h4>
+    <div>
+      <ul class="list-group list-group-numbered">
+        <li *ngFor="let passenger of data.passengers" class="list-group-item">{{ passenger.pass_name}}</li>
+      </ul>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close class="btn btn-primary">Close</button>
+</mat-dialog-actions>

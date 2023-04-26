@@ -1,16 +1,20 @@
 <div class="container">
   <app-header></app-header>
+
   <div class="row my-4">
     <div class="col-md-6 col-sm-12 col-xs my-2">
       <div class="card" style="width: 100%">
         <div class="card-body">
           <h5 class="card-title">Account Details</h5>
           <p class="card-text">
-            Full name: &nbsp;&nbsp; <span class="fw-bold text-capitalize">{{ userObject.firstname }}&nbsp;{{ userObject.lastname}} </span>
+            Full name: &nbsp;&nbsp;
+            <span class="fw-bold text-capitalize"
+              >{{ userObject.firstname }}&nbsp;{{ userObject.lastname }}
+            </span>
           </p>
           <p class="card-text">
             User Email: &nbsp;&nbsp;
-            <span class="fw-bold">{{ userObject.email}} </span>
+            <span class="fw-bold">{{ userObject.email }} </span>
           </p>
           <p class="card-text">
             Change Password: &nbsp;&nbsp;
@@ -30,7 +34,9 @@
               <div class="card-body">
                 <h5 class="card-title text-white">Active Bookings</h5>
                 <p class="card-text text-center">
-                  <span class="fw-bold text-white">{{ pendingBookings.length }}</span>
+                  <span class="fw-bold text-white">{{
+                    pendingBookings.length
+                  }}</span>
                 </p>
               </div>
             </div>
@@ -38,7 +44,9 @@
               <div class="card-body">
                 <h5 class="card-title text-white">Past Bookings</h5>
                 <p class="card-text text-center">
-                  <span class="fw-bold text-white">{{ approvedBookings.length }}</span>
+                  <span class="fw-bold text-white">{{
+                    approvedBookings.length
+                  }}</span>
                 </p>
               </div>
             </div>
@@ -52,17 +60,28 @@
       <p class="h2 text-decoration-underline text-primary">All bookings</p>
       <ol class="list-group list-group-numbered">
         <li
-          *ngFor="let booking of allBookings"
+          *ngFor="let booking of allBookings; index as id"
           class="list-group-item d-flex justify-content-between align-items-start"
         >
           <div class="ms-2 me-auto">
-            <div class="fw-bold"><a routerLink="#">{{ booking.travel_date}} - {{ booking.travel_time }}</a></div>
-            Booking for {{ booking.passengers?.length }} Persons <span *ngIf="booking.admin_confirmed; else pending" class="bg-success text-white rounded px-1">Approved</span>
+            <div class="fw-bold">
+              <p class="text-primary text-decoration-underline" (click)="openDialog(id)"
+                >{{ booking.travel_date }} - {{ booking.travel_time }}</p
+              >
+            </div>
+            Booking for {{ booking.passengers?.length }} Persons
+            <span
+              *ngIf="booking.admin_confirmed; else pending"
+              class="bg-success text-white rounded px-1"
+              >Approved</span
+            >
             <ng-template #pending>
               <span class="bg-warning text-white rounded px-1">Pending</span>
             </ng-template>
           </div>
-          <span class="badge bg-primary rounded-pill">{{ booking.passengers?.length }}</span>
+          <span class="badge bg-primary rounded-pill">{{
+            booking.passengers?.length
+          }}</span>
         </li>
       </ol>
     </div>

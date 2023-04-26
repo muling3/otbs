@@ -3,6 +3,8 @@ import { BookingService } from '../../services/booking.service';
 import { BookingModel } from '../../models/booking.model';
 import { UserService } from '../../services/user.service';
 import { UserModel } from '../../models/user.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-account',
@@ -11,7 +13,7 @@ import { UserModel } from '../../models/user.model';
 })
 export class AccountComponent implements OnInit {
 
-  constructor(private bookingService: BookingService, private userService: UserService) { }
+  constructor(private bookingService: BookingService, private userService: UserService, private dialog: MatDialog) { }
 
   username: string = ''
   userObject!: UserModel
@@ -47,4 +49,21 @@ export class AccountComponent implements OnInit {
     })
   }
 
+  openDialog(index: number) {
+    const dialogRef = this.dialog.open(ModalComponent, {
+      data: {
+        from: this.allBookings[index].departure,
+        to: this.allBookings[index].destination,
+        travelDate: this.allBookings[index].travel_date,
+        travelTime: this.allBookings[index].travel_time,
+        accomodation: this.allBookings[index].accomodation,
+        passengers: this.allBookings[index].passengers,
+        fare: this.allBookings[index].fare,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 }

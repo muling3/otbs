@@ -1,17 +1,18 @@
 const Bookings = require("../models/bookingsModel");
 const Placeholder = require("../models/placeholderModel");
 
-const confirmedBookings = async (req, res) => {
+const confirmedBookings = async (req, res, next) => {
   try {
     const bookings = await Bookings.find({ admin_confirmed: true }).sort({
       _id: -1,
     });
     res.status(200).send(bookings);
   } catch (error) {
-    res.status(500).json({ message: "Error occurred" });
+    next(error);
   }
 };
-const pendingBookings = async (req, res) => {
+
+const pendingBookings = async (req, res, next) => {
   try {
     const bookings = await Placeholder.find({
       user_confirmed: true,
@@ -21,11 +22,11 @@ const pendingBookings = async (req, res) => {
     });
     res.status(200).send(bookings);
   } catch (error) {
-    res.status(500).json({ message: "Error occurred" });
+    next(error);
   }
 };
 
-const confirmedUserBookngs = async (req, res) => {
+const confirmedUserBookngs = async (req, res, next) => {
   const booked_by = req.params.username;
   try {
     const bookings = await Bookings.find({
@@ -36,12 +37,12 @@ const confirmedUserBookngs = async (req, res) => {
     });
     res.status(200).send(bookings);
   } catch (error) {
-    res.status(500).json({ message: "Error occurred" });
+    next(error);
   }
 };
 
 //pending user bookings
-const pendingUserBookngs = async (req, res) => {
+const pendingUserBookngs = async (req, res, next) => {
   try {
     const booked_by = req.params.username;
     const bookings = await Placeholder.find({
@@ -53,19 +54,17 @@ const pendingUserBookngs = async (req, res) => {
     });
     res.status(200).send(bookings);
   } catch (error) {
-    res.status(500).json({ message: "Error occurred" });
+    next(error);
   }
 };
 
-const bookTrip = async (req, res) => {
+const bookTrip = async (req, res, next) => {
   try {
     const booking = await Bookings.create({
       booked_by: req.body.booked_by,
       contact: req.body.contact,
       address: req.body.address,
-      pass_name: req.body.pass_name,
-      pass_age: req.body.pass_age,
-      pass_gender: req.body.pass_gender,
+      passengers: req.body.passengers,
       accomodation: req.body.accomodation,
       fare: req.body.fare,
       departure: req.body.departure,
@@ -75,7 +74,7 @@ const bookTrip = async (req, res) => {
     });
     res.status(201).json({ booking });
   } catch (error) {
-    es.status(500).json({ message: "Error occurred" });
+    next(error);
   }
 };
 
@@ -87,16 +86,19 @@ const deleteReservation = async (req, res) => {
 };
 
 //delete reservation
-const confirmReservation = async (req, res) => {
-  const updated = await Bookings.findByIdAndUpdate(
-    req.params.id,
-    {
-      $set: { confirmed: true },
-    },
-    { new: true }
-  );
-  res.status(200).send(updated);
-  // res.status(200).json({ params: req.params });
+const confirmReservation = async (req, res, next) => {
+  try {
+    const updated = await Placeholder.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: { admin_confirmed: true },
+      },
+      { new: true }
+    );
+    res.status(200).send(updated);
+  } catch (error) {
+    next(error);
+  }
 };
 
 //PLACEHOLDER ENDPOINTS
