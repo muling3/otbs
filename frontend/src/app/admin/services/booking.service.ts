@@ -34,5 +34,19 @@ export class BookingService {
       this.API_URL + 'confirmed'
     );
   }
+
+  //get(Booking) ::Placeholder
+  getBooking(id: String): Observable<BookingModel> {
+    return this.http.get<BookingModel>(
+      this.API_URL + 'placeholder/' + id
+    );
+  }
+
+  //end booking process
+  endBooking(booking: BookingModel): Observable<BookingModel[]> {
+    return this.http.post<BookingModel[]>(
+      this.API_URL + '/', booking
+    );
+  }
   
 }

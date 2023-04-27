@@ -17,9 +17,14 @@ export class ModalComponent implements OnInit {
   ngOnInit(): void {}
 
   confirmBooking(id: String): void {
-    this.bookingService.confirmBooking(id).subscribe(data => {
-      console.log(data)
-    })
+    this.bookingService.confirmBooking(id).subscribe((data) => {
+      console.log('confirm', data);
+
+      //ending the booking process
+      this.bookingService.endBooking(data).subscribe((res) => {
+        console.log('end', res);
+      });
+    });
   }
 
   rejectBooking(): void {}

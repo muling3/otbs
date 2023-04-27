@@ -8,22 +8,25 @@ import { ModalComponent } from '../modal/modal.component';
 @Component({
   selector: 'app-reservation',
   templateUrl: './reservation.component.html',
-  styleUrls: ['./reservation.component.scss']
+  styleUrls: ['./reservation.component.scss'],
 })
 export class ReservationComponent implements OnInit {
-    constructor(private bookingService: BookingService, private dialog: MatDialog) { }
+  constructor(
+    private bookingService: BookingService,
+    private dialog: MatDialog
+  ) {}
 
-  username: string = ''
-  pendingBookings: BookingModel[] = []
+  username: string = '';
+  pendingBookings: BookingModel[] = [];
 
   ngOnInit(): void {
-    this.username = localStorage.getItem("user") as string
+    this.username = localStorage.getItem('user') as string;
     // pending bookings
-    this.bookingService.pendingBookings().subscribe(data => {
-      if(data){
-        this.pendingBookings = data
+    this.bookingService.pendingBookings().subscribe((data) => {
+      if (data) {
+        this.pendingBookings = data;
       }
-    })
+    });
   }
 
   openDialog(index: number) {
@@ -40,15 +43,13 @@ export class ReservationComponent implements OnInit {
       },
     });
 
-
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       //reset pending bookings
-      this.bookingService.pendingBookings().subscribe(data => {
-      if(data){
-        this.pendingBookings = data
-      }
-    })
+      this.bookingService.pendingBookings().subscribe((data) => {
+        if (data) {
+          this.pendingBookings = data;
+        }
+      });
     });
   }
-
 }

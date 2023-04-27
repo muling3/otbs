@@ -35,7 +35,6 @@ export class AccountComponent implements OnInit {
     this.bookingService.getUserPendingBookings(this.username).subscribe(data => {
       if(data){
         this.pendingBookings = data
-        console.log(this.pendingBookings.length)
       }
     })
 

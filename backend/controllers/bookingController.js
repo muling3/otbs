@@ -60,19 +60,8 @@ const pendingUserBookngs = async (req, res, next) => {
 
 const bookTrip = async (req, res, next) => {
   try {
-    const booking = await Bookings.create({
-      booked_by: req.body.booked_by,
-      contact: req.body.contact,
-      address: req.body.address,
-      passengers: req.body.passengers,
-      accomodation: req.body.accomodation,
-      fare: req.body.fare,
-      departure: req.body.departure,
-      destination: req.body.destination,
-      travel_date: req.body.travel_date,
-      travel_time: req.body.travel_time,
-    });
-    res.status(201).json({ booking });
+    const booking = await Bookings.create(req.body);
+    res.status(201).json({ ...booking._doc });
   } catch (error) {
     next(error);
   }

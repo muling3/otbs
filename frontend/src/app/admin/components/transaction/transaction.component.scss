@@ -1,0 +1,28 @@
+.mat-label{
+    color: yellow;
+}
+.matInput{
+    color: red;
+}
+
+.mat-table{
+    background-color: #f8f9fa;
+}
+mat-paginator{
+    color: #9cc7f1;
+}
+
+::ng-deep .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+  background: #9cc7f1;
+}
+::ng-deep .mat-form-field.mat-focused .mat-form-field-ripple {
+  background-color: #9cc7f1;
+}
+
+.mat-header-cell{
+    background-color: #9cc7f1;
+}
+
+.mat-cell, .mat-header-cell{
+    color: rgba(0, 0, 0, 0.623);
+}

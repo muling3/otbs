@@ -12,6 +12,8 @@ import { FormsModule } from '@angular/forms';
 import { ModalComponent } from './components/modal/modal.component';
 
 import {MatDialogModule} from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input'
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import {MatDialogModule} from '@angular/material/dialog';
   imports: [
     CommonModule,
     AdminRouting,
+    MatFormFieldModule,
+    MatInputModule,
     MatTableModule,
     MatPaginatorModule,
     MatDialogModule,
