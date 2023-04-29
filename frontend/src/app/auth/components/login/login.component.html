@@ -2,8 +2,25 @@
   <app-header></app-header>
   <div class="container d-flex justify-content-center align-items-center my-5">
     <div class="form-container col-md-6 col-xs-12 col-sm-12 p-4">
-      <p class="h3 text-center py-2 text-capitalize">sIGN in</p>
-      <form (ngSubmit)="loginSubmit(loginForm)" class="form" #loginForm="ngForm">
+      <p class="h3 text-center py-2 text-uppercase" #test>sIGN in</p>
+      <div
+        class="d-flex justify-content-center"
+        [ngClass]="{
+          'my-2': showWarning,
+          'px-2': showWarning,
+          'py-2': showWarning,
+          'bg-danger': showWarning,
+          'text-white': showWarning
+        }"
+        #error
+      >
+      </div>
+
+      <form
+        (ngSubmit)="loginSubmit(loginForm)"
+        class="form"
+        #loginForm="ngForm"
+      >
         <div class="form-group mb-3">
           <label for="username">Username</label>
           <input
@@ -12,9 +29,13 @@
             class="form-control"
             id="username"
             placeholder="Username"
-            required
             ngModel
+            required
+            #username="ngModel"
           />
+          <small *ngIf="username.touched && username.invalid" style="color: red"
+            >Username is required</small
+          >
         </div>
         <div class="form-group mb-3">
           <label for="password">Password</label>
@@ -25,7 +46,12 @@
             id="password"
             placeholder="Password"
             ngModel
+            required
+            #password="ngModel"
           />
+          <small *ngIf="password.touched && password.invalid" style="color: red"
+            >Password is required</small
+          >
         </div>
 
         <div class="form-group">
@@ -35,6 +61,7 @@
             value="Sign In"
             class="btn btn-primary form-control"
             id="submit"
+            [disabled]="loginForm.invalid"
           />
         </div>
       </form>
@@ -42,13 +69,17 @@
         <div class="d-flex justify-content-between align-items-center my-2">
           <div>Forgot Password</div>
           <div>
-            <a routerLink="/auth/reset" class="text-underline text-primary">Reset password</a>
+            <a routerLink="/auth/reset" class="text-underline text-primary"
+              >Reset password</a
+            >
           </div>
         </div>
         <div class="d-flex justify-content-between align-items-center my-2">
           <div>Don't have an account?</div>
           <div>
-            <a routerLink="/auth/register" class="text-underline text-primary">Sign Up</a>
+            <a routerLink="/auth/register" class="text-underline text-primary"
+              >Sign Up</a
+            >
           </div>
         </div>
       </div>

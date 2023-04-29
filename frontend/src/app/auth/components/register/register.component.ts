@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
@@ -9,24 +9,39 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
+  @ViewChild('registerForm') registerForm!: NgForm;
+  @ViewChild('test') testSmall!: ElementRef;
 
-  @ViewChild("registerForm") registerForm!: NgForm;
+  @ViewChild('error') errorDisplay!: ElementRef;
+  showWarning: Boolean = false;
 
-  constructor(private authService: AuthenticationService, private route: Router) {}
+  constructor(
+    private authService: AuthenticationService,
+    private route: Router
+  ) {}
 
   ngOnInit(): void {}
-  
+
   registerSubmit(): void {
-    this.authService.registerUser(this.registerForm.value).subscribe(
-      (d) => {
-        if (d) {
-          this.route.navigate(['auth/']);
-          this.registerForm.reset();
+    console.log(this.registerForm)
+    if (this.registerForm.valid) {
+      this.authService.registerUser(this.registerForm.value).subscribe(
+        (d) => {
+          if (d) {
+            this.route.navigate(['auth/']);
+            this.registerForm.reset();
+          }
+        },
+        (err) => {
+          console.log('error', err);
+          this.showWarning = true;
+          this.errorDisplay.nativeElement.innerHTML = `<small>${err.error.message}</small>`;
+          console.log(this.errorDisplay.nativeElement.textContent);
         }
-      },
-      (err) => {
-        console.log('error', err);
-      }
-    );
+      );
+    } else {
+      this.showWarning = true;
+      this.errorDisplay.nativeElement.innerHTML = `<small>All fields are required</small>`;
+    }
   }
 }

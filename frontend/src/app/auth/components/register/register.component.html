@@ -2,7 +2,18 @@
   <app-header></app-header>
   <div class="container d-flex justify-content-center align-items-center my-5">
     <div class="form-container col-md-8 col-xs-12 col-sm-12 p-2">
-        <p class="h3 text-center py-2 text-capitalize">sIGN uP</p>
+      <p class="h3 text-center py-2 text-uppercase">sIGN uP</p>
+      <div
+        class="d-flex justify-content-center"
+        [ngClass]="{
+          'my-2': showWarning,
+          'px-2': showWarning,
+          'py-2': showWarning,
+          'bg-danger': showWarning,
+          'text-white': showWarning
+        }"
+        #error
+      ></div>
       <form (ngSubmit)="registerSubmit()" class="form" #registerForm="ngForm">
         <div class="row">
           <div class="form-group mb-3 col-md-6 col-sm-12 col-xs-12">
@@ -14,7 +25,12 @@
               id="firstname"
               placeholder="Firstname"
               ngModel
+              required
+              #firstname="ngModel"
             />
+            <small *ngIf="firstname.touched && firstname.invalid" style="color: red"
+              >Firstname is required</small
+            >
           </div>
           <div class="form-group mb-3 col-md-6 col-sm-12 col-xs-12">
             <label for="lastname">Lastname</label>
@@ -25,7 +41,12 @@
               id="lastname"
               placeholder="Lastname"
               ngModel
+              required
+              #lastname="ngModel"
             />
+            <small *ngIf="lastname.touched && lastname.invalid" style="color: red"
+              >Lastname is required</small
+            >
           </div>
         </div>
         <div class="row">
@@ -38,7 +59,12 @@
               id="username"
               placeholder="Username"
               ngModel
+              required
+              #username="ngModel"
             />
+            <small *ngIf="username.touched && username.invalid" style="color: red"
+              >Username is required</small
+            >
           </div>
           <div class="form-group mb-3 col-md-6 col-sm-12 col-xs-12">
             <label for="email">Email</label>
@@ -49,7 +75,13 @@
               id="email"
               placeholder="Email"
               ngModel
+              email
+              required
+              #email="ngModel"
             />
+            <small *ngIf="email.touched && email.invalid" style="color: red"
+              >Email is required and must be valid</small
+            >
           </div>
         </div>
 
@@ -63,7 +95,12 @@
               id="password"
               placeholder="Password"
               ngModel
+              required
+              #password="ngModel"
             />
+            <small *ngIf="password.touched && password.invalid" style="color: red"
+              >Password is required</small
+            >
           </div>
           <div class="form-group mb-3 col-md-6 col-sm-12 col-xs-12">
             <label for="cnf-password">Confirm Password</label>
@@ -74,7 +111,20 @@
               id="cnf-password"
               placeholder="Confirm Password"
               ngModel
+              required
+              #cnfPassword="ngModel"
             />
+            <small *ngIf="cnfPassword.touched && cnfPassword.invalid" style="color: red"
+              >Please confirm password</small
+            >
+            <small
+              *ngIf="
+                password.valid &&
+                cnfPassword.valid &&
+                password.value !== cnfPassword.value
+              " style="color: red"
+              >Passwords do not match</small
+            >
           </div>
         </div>
 
@@ -85,6 +135,7 @@
             value="Sign Up"
             class="btn btn-primary form-control"
             id="submit"
+            [disabled]="registerForm.invalid || password.value !== cnfPassword.value"
           />
         </div>
       </form>
@@ -92,13 +143,17 @@
         <div class="d-flex justify-content-between align-items-center my-2">
           <div>Forgot Password</div>
           <div>
-            <a routerLink="/auth/reset" class="text-underline text-primary">Reset password</a>
+            <a routerLink="/auth/reset" class="text-underline text-primary"
+              >Reset password</a
+            >
           </div>
         </div>
         <div class="d-flex justify-content-between align-items-center my-2">
           <div>Already have an account?</div>
           <div>
-            <a routerLink="/auth" class="text-underline text-primary">Sign In</a>
+            <a routerLink="/auth" class="text-underline text-primary"
+              >Sign In</a
+            >
           </div>
         </div>
       </div>

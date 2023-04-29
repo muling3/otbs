@@ -12,6 +12,12 @@
   height: 400px; width: 100%; background-color: #303030;
 }
 
+input.ng-invalid.ng-touched{
+  border: 1px solid red;
+  box-shadow: none;
+  // box-shadow: 0 1px 1px rgba(238, 8, 8, 0.075) inset, 0 0 8px rgba(255, 2, 2, 0.6);
+}
+
 @media only screen and (max-width: 600px) {
   .navbar-brand {
     font-size: 14px !important;

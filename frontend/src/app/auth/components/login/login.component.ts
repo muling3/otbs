@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
+  @ViewChild('error') errorDisplay!: ElementRef;
+  showWarning: Boolean = false;
   constructor(
     private authService: AuthenticationService,
     private route: Router
@@ -17,19 +19,27 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   loginSubmit(form: NgForm): void {
-    this.authService.loginUser(form.value).subscribe(
-      (d) => {
-        if (d) {
-          // store username in local storage
-          localStorage.setItem("user", form.value.username)
-          //navigate user to a new route
-          this.route.navigate(['/']);
-          form.reset();
+    if (form.valid) {
+      this.authService.loginUser(form.value).subscribe(
+        (d) => {
+          if (d) {
+            // store username in local storage
+            localStorage.setItem('user', form.value.username);
+            //navigate user to a new route
+            this.route.navigate(['/']);
+            form.reset();
+          }
+        },
+        (err) => {
+          console.log('error', err);
+          this.showWarning = true;
+          this.errorDisplay.nativeElement.innerHTML = `<small>${err.error.message}</small>`;
+          console.log(this.errorDisplay.nativeElement.textContent);
         }
-      },
-      (err) => {
-        console.log('error', err);
-      }
-    );
+      );
+    } else {
+      this.showWarning = true;
+      this.errorDisplay.nativeElement.innerHTML = `<small>Username and Password must be provided</small>`;
+    }
   }
 }
