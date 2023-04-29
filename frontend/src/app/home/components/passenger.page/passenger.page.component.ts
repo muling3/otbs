@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { BookingService } from '../../services/booking.service';
 import { Router } from '@angular/router';
@@ -19,6 +19,9 @@ export class PassengerPageComponent implements OnInit {
 
   @ViewChild('passengerForm') passengerForm!: NgForm;
 
+  @ViewChild('error') errorDisplay!: ElementRef;
+  showWarning: Boolean = false;
+
   username: string = '';
   placeholderId: string = '';
   numberOfPassengers: number = 0;
@@ -34,33 +37,39 @@ export class PassengerPageComponent implements OnInit {
 
   passengersDetailsArray: PassengerModel[] = [];
   passengersSubmit(): void {
-    for (let i = 0; i < this.numberOfPassengers; i++) {
-      this.passengersDetailsArray[i] = {
-        pass_gender: this.passengerForm.value[`pass_gender_${i}`],
-        pass_age: this.passengerForm.value[`pass_age_${i}`],
-        pass_name: this.passengerForm.value[`pass_name_${i}`],
-      };
-    }
+    if (this.passengerForm.valid) {
+      for (let i = 0; i < this.numberOfPassengers; i++) {
+        this.passengersDetailsArray[i] = {
+          pass_gender: this.passengerForm.value[`pass_gender_${i}`],
+          pass_age: this.passengerForm.value[`pass_age_${i}`],
+          pass_name: this.passengerForm.value[`pass_name_${i}`],
+        };
+      }
 
-    //updating passengers array
-    this.bookingService
-      .updatePlaceholderAddPassengers(
-        this.passengersDetailsArray,
-        this.placeholderId
-      )
-      .subscribe((data) => {
-        //creating contact and addreess
-        this.bookingService
-          .updatePlaceholder(
-            {
-              contact: this.passengerForm.value[`contact`],
-              address: this.passengerForm.value[`address`],
-            },
-            this.placeholderId
-          )
-          .subscribe((data) => {
-            this.route.navigate(['/payment']);
-          });
-      });
+      //updating passengers array
+      this.bookingService
+        .updatePlaceholderAddPassengers(
+          this.passengersDetailsArray,
+          this.placeholderId
+        )
+        .subscribe((data) => {
+          //creating contact and addreess
+          this.bookingService
+            .updatePlaceholder(
+              {
+                contact: this.passengerForm.value[`contact`],
+                address: this.passengerForm.value[`address`],
+              },
+              this.placeholderId
+            )
+            .subscribe((data) => {
+              this.route.navigate(['/payment']);
+            });
+        });
+    } else {
+      this.showWarning = true;
+      this.errorDisplay.nativeElement.innerHTML = `<small>All inputs are required</small>`;
+      console.log(this.errorDisplay.nativeElement.textContent);
+    }
   }
 }

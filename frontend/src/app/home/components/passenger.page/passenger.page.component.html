@@ -4,7 +4,23 @@
   <div class="container d-flex justify-content-center align-items-center my-5">
     <div class="form-container col-md-6 col-xs-12 col-sm-12 p-4">
       <p class="h3 text-center py-2 text-uppercase">passenger info</p>
-      <form (ngSubmit)="passengersSubmit()" class="form" #passengerForm="ngForm">
+      <div
+        class="d-flex justify-content-center"
+        [ngClass]="{
+          'my-2': showWarning,
+          'px-2': showWarning,
+          'py-2': showWarning,
+          'bg-danger': showWarning,
+          'text-white': showWarning
+        }"
+        #error
+      >
+      </div>
+      <form
+        (ngSubmit)="passengersSubmit()"
+        class="form"
+        #passengerForm="ngForm"
+      >
         <div class="form-group mb-3">
           <label for="booking-name">Booking person name</label>
           <input
@@ -23,12 +39,20 @@
             inputmode="numeric"
             minlength="10"
             maxlength="12"
+            size="14"
             name="contact"
             class="form-control"
             id="booking-contact"
-            placeholder="Booking person contact"
+            placeholder="Ex. 0711223344 or 254711223344"
             ngModel
+            required
+            #bookingContact="ngModel"
           />
+          <small
+            *ngIf="bookingContact.touched && bookingContact.invalid"
+            style="color: red"
+            >Booking person contact is required</small
+          >
         </div>
         <div class="form-group mb-3">
           <label for="booking-address">Booking person address</label>
@@ -37,42 +61,82 @@
             name="address"
             class="form-control"
             id="booking-address"
-            placeholder="Booking person address"
+            placeholder="Ex. 205 - 90130 Kambi ya mawe"
             ngModel
+            required
+            #bookingAddress="ngModel"
           />
+          <small
+            *ngIf="bookingAddress.touched && bookingAddress.invalid"
+            style="color: red"
+            >Booking person address is required</small
+          >
         </div>
 
-        <div class="card bg-secondary p-2 my-2" *ngFor="let passenger of passengersDummyArray">
-          <p class="h5 text-center py-2 text-capitalize">passenger({{ passenger }})</p>
+        <div
+          class="card p-2 my-2"
+          style="background-color: #cecece;"
+          *ngFor="let passenger of passengersDummyArray"
+        >
+          <p class="h5 text-center py-2 text-capitalize">
+            passenger({{ passenger + 1 }})
+          </p>
           <div class="form-group mb-3">
             <label for="passenger-name">Passenger Name</label>
             <input
               type="text"
-              name="pass_name_{{passenger}}"
+              name="pass_name_{{ passenger }}"
               class="form-control"
               id="passenger-name"
               placeholder="Passenger name"
               ngModel
+              required
+              #passengerName="ngModel"
             />
+            <small
+              *ngIf="passengerName.touched && passengerName.invalid"
+              style="color: red"
+              >Passenger name is required</small
+            >
           </div>
           <div class="form-group mb-3">
             <label for="passenger-age">Passenger Age</label>
             <input
               type="number"
               min="1"
-              name="pass_age_{{passenger}}"
+              max="120"
+              name="pass_age_{{ passenger }}"
               class="form-control"
               id="passenger-age"
               placeholder="Passenger age"
               ngModel
+              required
+              #passengerAge="ngModel"
             />
+            <small
+              *ngIf="passengerAge.touched && passengerAge.invalid"
+              style="color: red"
+              >Passenger age is required and must be valid</small
+            >
           </div>
           <div class="form-group mb-3">
             <label for="gender">Passenger Gender</label>
-            <select class="form-control" id="gender" name="pass_gender_{{passenger}}" ngModel>
+            <select
+              class="form-control"
+              id="gender"
+              name="pass_gender_{{ passenger }}"
+              ngModel
+              required
+              #passengerGender="ngModel"
+            >
               <option value="Male">Male</option>
               <option value="Female">Female</option>
             </select>
+            <small
+              *ngIf="passengerGender.touched && passengerGender.invalid"
+              style="color: red"
+              >Passenger gender is required</small
+            >
           </div>
         </div>
 

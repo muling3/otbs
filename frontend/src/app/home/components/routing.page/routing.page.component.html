@@ -4,16 +4,40 @@
   <div class="container d-flex justify-content-center align-items-center my-5">
     <div class="row form-container col-md-6 col-xs-12 col-sm-12 p-4">
       <p class="h3 text-center py-2 text-uppercase">routing</p>
+      <div
+        class="d-flex justify-content-center"
+        [ngClass]="{
+          'my-2': showWarning,
+          'px-2': showWarning,
+          'py-2': showWarning,
+          'bg-danger': showWarning,
+          'text-white': showWarning
+        }"
+        #error
+      >
+      </div>
       <form (ngSubmit)="routingSubmit()" class="form" #routingForm="ngForm">
         <div class="form-group mb-3">
           <label for="from">From</label>
-          <select class="form-control" id="from" name="departure" ngModel>
+          <select
+            class="form-control"
+            id="from"
+            name="departure"
+            ngModel
+            required
+          >
             <option [value]="s" *ngFor="let s of stations">{{ s }}</option>
           </select>
         </div>
         <div class="form-group mb-3">
           <label for="to">Destination</label>
-          <select class="form-control" id="to" name="destination" ngModel>
+          <select
+            class="form-control"
+            id="to"
+            name="destination"
+            ngModel
+            required
+          >
             <option [value]="s" *ngFor="let s of stations.reverse()">
               {{ s }}
             </option>
@@ -21,12 +45,26 @@
         </div>
         <div class="form-group mb-3">
           <label for="dot">Date of travel</label>
-          <input type="date" [min]="todayFormattedDate" name="travel_date" class="form-control" id="dot" ngModel/>
+          <input
+            type="date"
+            [min]="todayFormattedDate"
+            name="travel_date"
+            class="form-control"
+            id="dot"
+            ngModel
+            required
+          />
         </div>
 
         <div class="form-group mb-3">
           <label for="time">Travel time</label>
-          <select class="form-control" name="travel_time" id="time" ngModel>
+          <select
+            class="form-control"
+            name="travel_time"
+            id="time"
+            ngModel
+            required
+          >
             <option value="Morning - 0800 Hrs" [defaultSelected]="">
               Morning - 0800 Hrs
             </option>
