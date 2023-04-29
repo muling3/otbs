@@ -18,10 +18,12 @@
         <li
           *ngFor="let booking of pendingBookings; index as id"
           class="list-group-item d-flex justify-content-between align-items-start"
+          style="cursor: pointer;"
+          (click)="openDialog(id)"
         >
           <div class="ms-2 me-auto">
             <div class="fw-bold">
-              <p class="text-primary text-decoration-underline" (click)="openDialog(id)"
+              <p class="text-primary text-decoration-underline"
                 >{{ booking.travel_date }} - {{ booking.travel_time }}</p
               >
             </div>
