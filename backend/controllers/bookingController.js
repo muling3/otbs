@@ -71,7 +71,6 @@ const bookTrip = async (req, res, next) => {
 const deleteReservation = async (req, res) => {
   const deleted = await Bookings.findByIdAndDelete(req.params.id);
   res.status(200).send(deleted);
-  // res.status(200).json({ params: req.params });
 };
 
 //delete reservation

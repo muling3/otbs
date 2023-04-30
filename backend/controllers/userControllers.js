@@ -1,8 +1,13 @@
 const User = require("../models/userModel");
 
+const bcrypt = require("bcryptjs");
+
 const allUsers = async (req, res, next) => {
   try {
-    const users = await User.find().sort({ _id: -1 });
+    const users = await User.find(
+      {},
+      { firstname: 1, lastname: 1, username: 1, email: 1 }
+    ).sort({ _id: -1 });
     res.status(200).json({ users });
   } catch (error) {
     res.status(500).json({ message: "Error occurred" });
@@ -11,8 +16,11 @@ const allUsers = async (req, res, next) => {
 
 const getUser = async (req, res, next) => {
   try {
-    let username = req.params.username
-    const user = await User.findOne({username});
+    let username = req.params.username;
+    const user = await User.findOne(
+      { username },
+      { firstname: 1, lastname: 1, username: 1, email: 1 }
+    );
     res.status(200).send(user);
   } catch (error) {
     res.status(500).json({ message: "Error occurred" });
@@ -27,21 +35,29 @@ const loginAdmin = async (req, res, next) => {
       res.status(400);
       throw new Error("Please make sure all the fields are filled");
     }
-    const users = await User.find({email, password, roles: { $all: ["ROLE_ADMIN", "ROLE_USER"] } } , {username: 1, email: 1})
 
-    //confirm whether user exists by that username
-    if (users.length > 0) {
-      //generate token function will be here
-      res.status(200).send({ user: users });
-    } else {
+    //check whether username exists
+    const user = await User.findOne({ email }, { email: 1, password: 1 });
+    if (!user) {
       res.status(404);
       throw new Error("Username does not exist");
     }
+    
+    //comparing password
+    let success = await bcrypt.compare(password, user.password);
+
+    //checking password
+    if (!success) {
+      res.status(400);
+      throw new Error("Invalid credentials");
+    }
+
+    ///sending back the user
+    res.status(200).json({ user: user.username });
   } catch (error) {
     next(error);
   }
 };
-
 
 const loginUser = async (req, res, next) => {
   const { username, password } = req.body;
@@ -51,16 +67,25 @@ const loginUser = async (req, res, next) => {
       res.status(400);
       throw new Error("Please make sure all the fields are filled");
     }
-    const users = await User.find({ username, password });
 
-    //confirm whether user exists by that username
-    if (users.length > 0) {
-      //generate token function will be here
-      res.status(200).json({ user: users });
-    } else {
+    //check whether username exists
+    const user = await User.findOne({ username }, { username: 1, password: 1 });
+    if (!user) {
       res.status(404);
       throw new Error("Username does not exist");
     }
+
+    //comparing password
+    let success = await bcrypt.compare(password, user.password);
+
+    //checking password
+    if (!success) {
+      res.status(400);
+      throw new Error("Invalid credentials");
+    }
+
+    //generate token function will be here
+    res.status(200).json({ user: user.username });
   } catch (error) {
     next(error);
   }
@@ -81,18 +106,21 @@ const registerUser = async (req, res, next) => {
     }
 
     //search user with the username
-    const users = await User.find({ username: req.body.username });
-    if (users.length > 0) {
+    const users = await User.findOne({ username: req.body.username });
+    if (users) {
       res.status(409);
-      throw new Error("Username already exists");
+      throw new Error("Username already taken");
     }
+
+    //encrypting the user password
+    const encryptedPassword = await bcrypt.hash(req.body.password, 10);
 
     const user = await User.create({
       firstname: req.body.firstname,
       lastname: req.body.lastname,
       username: req.body.username,
       email: req.body.email,
-      password: req.body.password,
+      password: encryptedPassword,
     });
 
     res.status(201).json({ user: user });
