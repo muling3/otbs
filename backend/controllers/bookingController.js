@@ -4,6 +4,8 @@ const Placeholder = require("../models/placeholderModel");
 const CustomError = require("../utils/CustomError");
 const asyncErrorHander = require("../utils/asyncErrorHandler");
 
+const sendUserTicket = require("../utils/sendUserTicket");
+
 const confirmedBookings = asyncErrorHander(async (req, res, next) => {
   const bookings = await Bookings.find({ admin_confirmed: true }).sort({
     _id: -1,
@@ -83,6 +85,10 @@ const confirmReservation = asyncErrorHander(async (req, res, next) => {
     },
     { new: true }
   );
+
+  //notify user thru email that there reservation was approved and send ticket
+  await sendUserTicket(updated.booked_by, req.params.id);
+
   res.status(200).send(updated);
 });
 
