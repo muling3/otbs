@@ -27,9 +27,13 @@ export class PassengerPageComponent implements OnInit {
   numberOfPassengers: number = 0;
   passengersDummyArray: number[] = [];
   ngOnInit(): void {
-    this.username = localStorage.getItem('user') as string;
-    this.placeholderId = localStorage.getItem('id') as string;
-    this.numberOfPassengers = parseInt(localStorage.getItem('np') as string);
+    this.placeholderId = localStorage.getItem('otbs-id') as string;
+    this.username = localStorage.getItem("otbs-user") as string
+    if(!this.username) this.route.navigate(['/auth'])
+    if(!this.placeholderId) this.route.navigate(['/'])
+    if(!(localStorage.getItem('otbs-np') as String)) this.route.navigate(['/'])
+
+    this.numberOfPassengers = parseInt(localStorage.getItem('otbs-np') as string);
     for (let i = 0; i < this.numberOfPassengers; i++) {
       this.passengersDummyArray[i] = i;
     }
@@ -63,6 +67,7 @@ export class PassengerPageComponent implements OnInit {
               this.placeholderId
             )
             .subscribe((data) => {
+              localStorage.removeItem('otbs-np');
               this.route.navigate(['/payment']);
             });
         });

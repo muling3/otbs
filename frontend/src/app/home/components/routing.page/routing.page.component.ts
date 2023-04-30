@@ -45,7 +45,11 @@ export class RoutingPageComponent implements OnInit {
   constructor(private bookingService: BookingService, private route: Router) {}
 
   ngOnInit(): void {
-    this.username = localStorage.getItem('user') as string;
+    // remove any existing id:: incase the user had clicked back button
+    localStorage.removeItem("otbs-id")
+    
+    this.username = localStorage.getItem('otbs-user') as string;
+    if(!this.username) this.route.navigate(['/auth'])
   }
 
   routingSubmit(): void {
@@ -72,7 +76,7 @@ export class RoutingPageComponent implements OnInit {
           (data) => {
             if (data) {
               //saving to local storage
-              localStorage.setItem('id', data._id!);
+              localStorage.setItem('otbs-id', data._id!);
 
               //navigating user to accomodation page
               this.route.navigate(['/accomodation']);

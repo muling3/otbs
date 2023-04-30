@@ -18,9 +18,13 @@ export class AccomodationPageComponent implements OnInit {
 
   @ViewChild('error') errorDisplay!: ElementRef;
   showWarning: Boolean = false;
+  username: String = ''
 
   ngOnInit(): void {
-    this.placeholderId = localStorage.getItem('id') as string;
+    this.placeholderId = localStorage.getItem('otbs-id') as string;
+    this.username = localStorage.getItem("otbs-user") as string
+    if(!this.username) this.route.navigate(['/auth'])
+    if(!this.placeholderId) this.route.navigate(['/'])
 
     //get existing placeholder
     this.bookingService.getPlaceholder(this.placeholderId).subscribe((data) => {
@@ -33,7 +37,7 @@ export class AccomodationPageComponent implements OnInit {
   accomodationSubmit(): void {
     if (this.accomodationForm.valid) {
       //set number of passengers to localstorage
-      localStorage.setItem('np', this.accomodationForm.value['no-pass']);
+      localStorage.setItem('otbs-np', this.accomodationForm.value['no-pass']);
 
       //update plaeholder
       this.bookingService

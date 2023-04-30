@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
         (d) => {
           if (d) {
             // store username in local storage
-            localStorage.setItem('admin', d.username);
+            localStorage.setItem('admin', "1");
 
             //navigate user to a new route
             this.route.navigate(['/admin/reservations']);

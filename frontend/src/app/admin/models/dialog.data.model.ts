@@ -2,6 +2,7 @@ import { PassengerModel } from "src/app/home/models/passenger.model"
 
 export interface DialogData {
   id: String
+  bookedBy: String
   from: String
   to: String
   travelDate: Date

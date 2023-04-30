@@ -14,7 +14,7 @@
   <div class="row justify-content-center align-items-center py-4">
     <div class="col-md-8 col-sm-12 col-xs-1">
       <p class="h2 text-decoration-underline text-primary">Current reservations</p>
-      <ol class="list-group list-group-numbered">
+      <ol class="list-group list-group-numbered" *ngIf="pendingBookings">
         <li
           *ngFor="let booking of pendingBookings; index as id"
           class="list-group-item d-flex justify-content-between align-items-start"
@@ -42,6 +42,16 @@
           }}</span>
         </li>
       </ol>
+      <div *ngIf="pendingBookings.length == 0">
+        <small class="text-dark"
+          >All clean. No bookings pending approval.&nbsp;<span
+            class="text-decoration-underline text-primary"
+            routerLink="/admin/transactions"
+            >Click here</span
+          >
+          to see all booking transactions</small
+        >
+      </div>
     </div>
   </div>
 </div>

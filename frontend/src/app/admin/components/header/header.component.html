@@ -22,7 +22,10 @@
       <ul class="navbar-nav">
           <ng-content></ng-content>
           <li class="nav-item">
-            <a class="nav-link text-capitalize" routerLink="/auth">user login</a>
+            <a class="nav-link text-capitalize" (click)="switchToUser()">user login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-capitalize" (click)="logout()">logout</a>
           </li>
         </ul>
       </div>

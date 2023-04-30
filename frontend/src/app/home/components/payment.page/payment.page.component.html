@@ -8,7 +8,7 @@
         <div class="card-header text-center">
           OTBS Booking Information Overview
         </div>
-        <div class="card-body">
+        <div class="card-body" *ngIf="placeholderItem">
           <p class="card-text">
             Accomodation Type: &nbsp;&nbsp;
             <span class="fw-bold">{{ placeholderItem.accomodation }}</span>
@@ -25,7 +25,7 @@
       </div>
       <div class="card text-white bg-secondary mb-3" style="max-width: 100%">
         <div class="card-header">Contact Info</div>
-        <div class="card-body">
+        <div class="card-body" *ngIf="placeholderItem">
           <p class="card-text">
             Booked by: &nbsp;&nbsp;
             <span class="fw-bold text-capitalize">{{
@@ -45,7 +45,7 @@
       <div class="card text-white bg-secondary mb-3" style="max-width: 100%">
         <div class="card-header">Passenger Info</div>
         <div class="card-body">
-          <table class="table table-hover table-bordered text-white">
+          <table class="table table-hover table-bordered text-white" *ngIf="placeholderItem">
             <thead>
               <tr>
                 <th scope="col">Name</th>

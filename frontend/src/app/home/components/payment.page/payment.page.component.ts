@@ -11,11 +11,15 @@ import { Router } from '@angular/router';
 export class PaymentPageComponent implements OnInit {
   constructor(private bookingService: BookingService, private route: Router) {}
 
+  username: string = '';
   placeholderId: string = '';
   placeholderItem!: BookingModel;
   totalFare: number = 0;
   ngOnInit(): void {
-    this.placeholderId = localStorage.getItem('id') as string;
+    this.placeholderId = localStorage.getItem('otbs-id') as string;
+    this.username = localStorage.getItem('otbs-user') as string;
+    if (!this.username) this.route.navigate(['/auth']);
+    if (!this.placeholderId) this.route.navigate(['/']);
 
     this.bookingService.getPlaceholder(this.placeholderId).subscribe((data) => {
       if (data) {
@@ -36,11 +40,15 @@ export class PaymentPageComponent implements OnInit {
         this.placeholderId
       )
       .subscribe((data) => {
+        localStorage.removeItem('otbs-id');
+        
         this.route.navigate(['/user']);
       });
   }
 
   cancelButton(): void {
+    localStorage.removeItem('otbs-id');
+
     this.route.navigate(['/']);
   }
 }

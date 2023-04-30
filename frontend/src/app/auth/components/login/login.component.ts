@@ -11,12 +11,16 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   @ViewChild('error') errorDisplay!: ElementRef;
   showWarning: Boolean = false;
+  username: String = ''
   constructor(
     private authService: AuthenticationService,
     private route: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.username = localStorage.getItem("otbs-user") as string
+    if(this.username) this.route.navigate(['/'])
+  }
 
   loginSubmit(form: NgForm): void {
     if (form.valid) {
@@ -24,7 +28,7 @@ export class LoginComponent implements OnInit {
         (d) => {
           if (d) {
             // store username in local storage
-            localStorage.setItem('user', form.value.username);
+            localStorage.setItem('otbs-user', form.value.username);
             //navigate user to a new route
             this.route.navigate(['/']);
             form.reset();

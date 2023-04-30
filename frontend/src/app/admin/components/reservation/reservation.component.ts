@@ -4,6 +4,7 @@ import { BookingService } from '../../services/booking.service';
 import { UserModel } from 'src/app/home/models/user.model';
 import { BookingModel } from 'src/app/home/models/booking.model';
 import { ModalComponent } from '../modal/modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reservation',
@@ -13,14 +14,17 @@ import { ModalComponent } from '../modal/modal.component';
 export class ReservationComponent implements OnInit {
   constructor(
     private bookingService: BookingService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private route: Router
   ) {}
 
-  username: string = '';
+  loggedIn: string = '';
   pendingBookings: BookingModel[] = [];
 
   ngOnInit(): void {
-    this.username = localStorage.getItem('user') as string;
+    this.loggedIn = localStorage.getItem('admin') as string;
+    if(!this.loggedIn) this.route.navigate(['/admin'])
+
     // pending bookings
     this.bookingService.pendingBookings().subscribe((data) => {
       if (data) {
@@ -40,6 +44,7 @@ export class ReservationComponent implements OnInit {
         passengers: this.pendingBookings[index].passengers,
         fare: this.pendingBookings[index].fare,
         id: this.pendingBookings[index]._id,
+        bookedBy: this.pendingBookings[index].booked_by,
       },
     });
 

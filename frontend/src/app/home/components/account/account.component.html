@@ -6,13 +6,13 @@
       <div class="card" style="width: 100%">
         <div class="card-body">
           <h5 class="card-title">Account Details</h5>
-          <p class="card-text">
+          <p class="card-text" *ngIf="userObject">
             Full name: &nbsp;&nbsp;
             <span class="fw-bold text-capitalize"
               >{{ userObject.firstname }}&nbsp;{{ userObject.lastname }}
             </span>
           </p>
-          <p class="card-text">
+          <p class="card-text" *ngIf="userObject">
             User Email: &nbsp;&nbsp;
             <span class="fw-bold">{{ userObject.email }} </span>
           </p>
@@ -33,7 +33,7 @@
             <div class="card bg-primary my-2" style="width: auto">
               <div class="card-body">
                 <h5 class="card-title text-white">Active Bookings</h5>
-                <p class="card-text text-center">
+                <p class="card-text text-center" *ngIf="pendingBookings">
                   <span class="fw-bold text-white">{{
                     pendingBookings.length
                   }}</span>
@@ -43,7 +43,7 @@
             <div class="card bg-warning my-2" style="width: auto">
               <div class="card-body">
                 <h5 class="card-title text-white">Past Bookings</h5>
-                <p class="card-text text-center">
+                <p class="card-text text-center" *ngIf="approvedBookings">
                   <span class="fw-bold text-white">{{
                     approvedBookings.length
                   }}</span>
@@ -58,18 +58,18 @@
   <div class="row justify-content-center align-items-center py-4">
     <div class="col-md-8 col-sm-12 col-xs-1">
       <p class="h2 text-decoration-underline text-primary">All bookings</p>
-      <ol class="list-group list-group-numbered">
+      <ol class="list-group list-group-numbered" *ngIf="allBookings">
         <li
           *ngFor="let booking of allBookings; index as id"
           class="list-group-item d-flex justify-content-between align-items-start"
-          style="cursor: pointer;"
+          style="cursor: pointer"
           (click)="openDialog(id)"
         >
           <div class="ms-2 me-auto">
             <div class="fw-bold">
-              <p class="text-primary text-decoration-underline"
-                >{{ booking.travel_date }} - {{ booking.travel_time }}</p
-              >
+              <p class="text-primary text-decoration-underline">
+                {{ booking.travel_date }} - {{ booking.travel_time }}
+              </p>
             </div>
             Booking for {{ booking.passengers?.length }} Persons
             <span
@@ -86,6 +86,17 @@
           }}</span>
         </li>
       </ol>
+
+      <div *ngIf="allBookings.length == 0">
+        <small class="text-dark"
+          >You currently have no booking history with us &nbsp;<span
+            class="text-decoration-underline text-primary"
+            routerLink="/"
+            >Click here</span
+          >
+          to start booking</small
+        >
+      </div>
     </div>
   </div>
 </div>

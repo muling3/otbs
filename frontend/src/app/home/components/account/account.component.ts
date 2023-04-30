@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { UserModel } from '../../models/user.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../modal/modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account',
@@ -13,7 +14,7 @@ import { ModalComponent } from '../modal/modal.component';
 })
 export class AccountComponent implements OnInit {
 
-  constructor(private bookingService: BookingService, private userService: UserService, private dialog: MatDialog) { }
+  constructor(private bookingService: BookingService, private userService: UserService, private dialog: MatDialog, private route: Router) { }
 
   username: string = ''
   userObject!: UserModel
@@ -22,7 +23,8 @@ export class AccountComponent implements OnInit {
   allBookings: BookingModel[] = []
 
   ngOnInit(): void {
-    this.username = localStorage.getItem("user") as string
+    this.username = localStorage.getItem("otbs-user") as string
+    if (!this.username) this.route.navigate(['/auth']);
 
     //get user object
     this.userService.getUserByUsername(this.username).subscribe(data => {
@@ -61,8 +63,8 @@ export class AccountComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log(`Dialog result: ${result}`);
+    // });
   }
 }

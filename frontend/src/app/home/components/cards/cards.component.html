@@ -1,18 +1,54 @@
 <div class="container my-4">
   <div class="row justify-content-center align-items-center">
-    <div class="col-md-2 col-sm-12 col-xs-12 border border-1 py-2 px-2 my-2 mx-2" [ngClass]="{'border-5': url == '/routing', 'border-primary': url == '/routing'}">
+    <div
+    style="transition: all 2s ease"
+      class="col-md-2 col-sm-12 col-xs-12 border border-1 rounded py-2 px-2 my-2 mx-2"
+      [ngClass]="{
+        'border-5': url == '/routing',
+        'border-primary': url == '/routing',
+        'bg-primary': url == '/routing',
+        'text-white': url == '/routing'
+      }"
+    >
       <p class="text-uppercase">1. routing</p>
       <p class="text-capitalize">Schedule of travel</p>
     </div>
-    <div class="col-md-2 col-sm-12 col-xs-12 border border-1 py-2 px-2 my-2 mx-2" [ngClass]="{'border-5': url == '/accomodation', 'border-primary': url == '/accomodation'}">
+    <div
+    style="transition: all 2s ease"
+      class="col-md-2 col-sm-12 col-xs-12 border border-1 rounded py-2 px-2 my-2 mx-2"
+      [ngClass]="{
+        'border-5': url == '/accomodation',
+        'border-primary': url == '/accomodation',
+        'bg-primary': url == '/accomodation',
+        'text-white': url == '/accomodation'
+      }"
+    >
       <p class="text-uppercase">2. accomodation</p>
       <p class="text-capitalize">accomodation type</p>
     </div>
-    <div class="col-md-2 col-sm-12 col-xs-12 border border-1 py-2 px-2 my-2 mx-2" [ngClass]="{'border-5': url == '/passenger', 'border-primary': url == '/passenger'}">
+    <div
+    style="transition: all 2s ease"
+      class="col-md-2 col-sm-12 col-xs-12 border border-1 rounded py-2 px-2 my-2 mx-2"
+      [ngClass]="{
+        'border-5': url == '/passenger',
+        'border-primary': url == '/passenger',
+        'bg-primary': url == '/passenger',
+        'text-white': url == '/passenger'
+      }"
+    >
       <p class="text-uppercase">3. passenger info</p>
       <p class="text-capitalize">passenger details</p>
     </div>
-    <div class="col-md-2 col-sm-12 col-xs-12 border border-1 py-2 px-2 my-2 mx-2" [ngClass]="{'border-5': url == '/payment', 'border-primary': url == '/payment'}">
+    <div
+    style="transition: all 2s ease"
+      class="col-md-2 col-sm-12 col-xs-12 border border-1 rounded py-2 px-2 my-2 mx-2"
+      [ngClass]="{
+        'border-5': url == '/payment',
+        'border-primary': url == '/payment',
+        'bg-primary': url == '/payment',
+        'text-white': url == '/payment'
+      }"
+    >
       <p class="text-uppercase">4. payment info</p>
       <p class="text-capitalize">payment details</p>
     </div>

@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { BookingService } from '../../services/booking.service';
 import { BookingModel } from 'src/app/home/models/booking.model';
 import { MatSort } from '@angular/material/sort';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-transaction',
@@ -16,12 +17,17 @@ export class TransactionComponent implements OnInit {
   displayedColumns: string[] = ['departure', 'destination', 'accomodation', 'travel_date', 'travel_time', 'booked_by', 'contact', 'passengers', 'fare'];
   dataSource!: MatTableDataSource<BookingModel>;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
+  @ViewChild(MatSort) sort: MatSort | null = null;
 
-  constructor(private bookingService: BookingService) {}
+  loggedIn: String = ''
+
+  constructor(private bookingService: BookingService, private route: Router) {}
 
   ngOnInit(): void {
+    this.loggedIn = localStorage.getItem('admin') as string;
+    if(!this.loggedIn) this.route.navigate(['/admin'])
+
     this.bookingService.confirmedBookings().subscribe(data => {
       this.approvedBookings = data
 
