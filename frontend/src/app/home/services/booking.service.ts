@@ -18,6 +18,11 @@ export class BookingService {
   getPlaceholder(id: string) {
     return this.http.get<BookingModel>(this.API_URL + 'placeholder/' + id);
   }
+
+  getRemainingSlots(query: string) {
+    return this.http.get<{slots: Number}>(this.API_URL + 'slots?' + query);
+  }
+
   updatePlaceholder(data: BookingModel, id: string) {
     return this.http.put<BookingModel>(
       this.API_URL + 'placeholder/' + id,

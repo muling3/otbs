@@ -10,7 +10,7 @@ const sendAdminPendingApproval = require("../utils/sendAdminPendingApproval");
 
 const getRemainingSlots = asyncErrorHander(async (req, res, next) => {
   const slots = await PassengerTicketting.find({ ...req.query }).count();
-  res.status(200).send(slots);
+  res.status(200).json({slots});
 });
 
 const confirmedBookings = asyncErrorHander(async (req, res, next) => {

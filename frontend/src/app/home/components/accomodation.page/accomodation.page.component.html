@@ -14,8 +14,7 @@
           'text-white': showWarning
         }"
         #error
-      >
-      </div>
+      ></div>
       <form
         (submit)="accomodationSubmit()"
         class="form"
@@ -25,7 +24,7 @@
           <thead>
             <tr>
               <th scope="col">Accomodation</th>
-              <th scope="col">Seats</th>
+              <th scope="col">Available Seats</th>
               <th scope="col">Fare (KSH)</th>
             </tr>
           </thead>
@@ -41,13 +40,20 @@
                     value="Economy"
                     ngModel
                     required
+                    [attr.disabled]="
+                      economySlots == economyTotalSeats ? false : null
+                    "
                   />
                   <label class="form-check-label" for="acc-economy">
-                    Economy
+                    {{
+                      economySlots == economyTotalSeats
+                        ? "No Seats available [ECONOMY]"
+                        : "Economy"
+                    }}
                   </label>
                 </div>
               </td>
-              <td>500</td>
+              <td>{{ economyTotalSeats - economySlots }}</td>
               <td>{{ placeholderFare }}</td>
             </tr>
             <tr>
@@ -59,12 +65,19 @@
                     name="accomodation"
                     id="acc-vip"
                     value="Vip"
+                    [attr.disabled]="vipSlots >= vipTotalSeats ? false : null"
                     ngModel
                   />
-                  <label class="form-check-label" for="acc-vip"> Vip </label>
+                  <label class="form-check-label" for="acc-vip">
+                    {{
+                      vipSlots == vipTotalSeats
+                        ? "No Seats available [VIP]"
+                        : "Vip"
+                    }}
+                  </label>
                 </div>
               </td>
-              <td>200</td>
+              <td>{{ vipTotalSeats - vipSlots }}</td>
               <td>3500</td>
             </tr>
           </tbody>
