@@ -4,6 +4,9 @@ const Placeholder = require("../models/placeholderModel");
 const nodeMailer = require("nodemailer");
 const TicketDoc = require("pdfkit");
 
+//constants
+const constants = require("../utils/constants/constants")
+
 //load env variables
 require("dotenv").config();
 
@@ -100,7 +103,7 @@ module.exports = async (username, bookingId) => {
     },
     to: user.email,
     subject: `Approval of OTBS Booking`,
-    text: `Hello, \nI hope this mail finds you well.\nThis is to notify you of your OTBS booking approval\nAttached to this email is your ticket(s)\nPrint ticket or provide this email at your departure station\nThank you for choosing to travel with us\n\nKind regards\nOTBS Team`,
+    text: constants.SENDING_TICKET_MSG,
     replyTo: process.env.EMAIL_USERNAME,
     attachments: [
       {

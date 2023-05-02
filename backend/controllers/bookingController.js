@@ -5,6 +5,7 @@ const CustomError = require("../utils/CustomError");
 const asyncErrorHander = require("../utils/asyncErrorHandler");
 
 const sendUserTicket = require("../utils/sendUserTicket");
+const sendAdminPendingApproval = require("../utils/sendAdminPendingApproval")
 
 const confirmedBookings = asyncErrorHander(async (req, res, next) => {
   const bookings = await Bookings.find({ admin_confirmed: true }).sort({
@@ -125,6 +126,15 @@ const updatePlaceholder = asyncErrorHander(async (req, res) => {
     },
     { new: true }
   );
+
+  // check if the update involves updating user confirmed to true
+  // then send email to admin to inform there is a booking pending approval
+  if(req.body.user_confirmed){
+    console.log("userconfimed true")
+    //send email to admin
+      await sendAdminPendingApproval()
+  }
+  
   res.status(201).json({ message: "Updated successfully" });
 });
 
