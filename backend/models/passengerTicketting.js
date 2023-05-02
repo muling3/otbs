@@ -9,6 +9,7 @@ const TickettingSchema = new mongoose.Schema(
     travel_date: { type: String, default: "" },
     travel_time: { type: String, default: "" },
     passenger_name: { type: String, default: "" },
+    booked_by: { type: String, default: "" },
   },
   {
     timestamps: true,

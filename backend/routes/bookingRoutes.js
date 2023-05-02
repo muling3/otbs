@@ -11,6 +11,7 @@ const {
   updatePlaceholder,
   updatePlaceholderAddPassengers,
   clearPlaceholder,
+  getRemainingSlots,
 } = require("../controllers/bookingController");
 
 const router = require("express").Router();
@@ -24,6 +25,9 @@ router.delete("/placeholder/:id", clearPlaceholder);
 
 //other end points
 router.post("/", bookTrip);
+
+//remaining slots
+router.get("/slots", getRemainingSlots)
 
 router.get("/pending", pendingBookings);
 router.get("/confirmed", confirmedBookings);

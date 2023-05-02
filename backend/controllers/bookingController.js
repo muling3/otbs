@@ -1,11 +1,18 @@
 const Bookings = require("../models/bookingsModel");
 const Placeholder = require("../models/placeholderModel");
+const PassengerTicketting = require("../models/passengerTicketting");
 
 const CustomError = require("../utils/CustomError");
 const asyncErrorHander = require("../utils/asyncErrorHandler");
 
 const sendUserTicket = require("../utils/sendUserTicket");
-const sendAdminPendingApproval = require("../utils/sendAdminPendingApproval")
+const sendAdminPendingApproval = require("../utils/sendAdminPendingApproval");
+
+
+const getRemainingSlots = asyncErrorHander(async (req, res, next) => {
+  const slots = await PassengerTicketting.find({ ...req.query }).count();
+  res.status(200).send(slots);
+});
 
 const confirmedBookings = asyncErrorHander(async (req, res, next) => {
   const bookings = await Bookings.find({ admin_confirmed: true }).sort({
@@ -87,6 +94,23 @@ const confirmReservation = asyncErrorHander(async (req, res, next) => {
     { new: true }
   );
 
+  // creating instance in the ticketting schema
+  let entries = [];
+  for (let i = 0; i < updated.passengers.length; i++) {
+    entries.push({
+      travel_date: updated.travel_date,
+      travel_time: updated.travel_time,
+      accomodation: updated.accomodation,
+      departure: updated.departure,
+      destination: updated.destination,
+      fare: updated.fare,
+      booked_by: updated.booked_by,
+      passenger_name: updated.passengers[i].pass_name,
+    });
+  }
+
+  let insertIds = await PassengerTicketting.insertMany(entries);
+
   //notify user thru email that there reservation was approved and send ticket
   await sendUserTicket(updated.booked_by, req.params.id);
 
@@ -129,12 +153,12 @@ const updatePlaceholder = asyncErrorHander(async (req, res) => {
 
   // check if the update involves updating user confirmed to true
   // then send email to admin to inform there is a booking pending approval
-  if(req.body.user_confirmed){
-    console.log("userconfimed true")
+  if (req.body.user_confirmed) {
+    console.log("userconfimed true");
     //send email to admin
-      await sendAdminPendingApproval()
+    await sendAdminPendingApproval();
   }
-  
+
   res.status(201).json({ message: "Updated successfully" });
 });
 
@@ -182,4 +206,5 @@ module.exports = {
   updatePlaceholder,
   updatePlaceholderAddPassengers,
   clearPlaceholder,
+  getRemainingSlots,
 };
