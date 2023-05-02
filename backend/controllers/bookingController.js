@@ -8,7 +8,6 @@ const asyncErrorHander = require("../utils/asyncErrorHandler");
 const sendUserTicket = require("../utils/sendUserTicket");
 const sendAdminPendingApproval = require("../utils/sendAdminPendingApproval");
 
-
 const getRemainingSlots = asyncErrorHander(async (req, res, next) => {
   const slots = await PassengerTicketting.find({ ...req.query }).count();
   res.status(200).send(slots);
@@ -96,7 +95,13 @@ const confirmReservation = asyncErrorHander(async (req, res, next) => {
 
   // creating instance in the ticketting schema
   // getting last seat_number inserted
-  let seat = await PassengerTicketting.find({}).count()
+  let seat = await PassengerTicketting.find({
+    travel_date: updated.travel_date,
+    travel_time: updated.travel_time,
+    accomodation: updated.accomodation,
+    departure: updated.departure,
+    destination: updated.destination,
+  }).count();
 
   let entries = [];
   for (let i = 0; i < updated.passengers.length; i++) {
