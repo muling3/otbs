@@ -95,6 +95,9 @@ const confirmReservation = asyncErrorHander(async (req, res, next) => {
   );
 
   // creating instance in the ticketting schema
+  // getting last seat_number inserted
+  let seat = await PassengerTicketting.find({}).count()
+
   let entries = [];
   for (let i = 0; i < updated.passengers.length; i++) {
     entries.push({
@@ -106,6 +109,7 @@ const confirmReservation = asyncErrorHander(async (req, res, next) => {
       fare: updated.fare,
       booked_by: updated.booked_by,
       passenger_name: updated.passengers[i].pass_name,
+      seat_number: ++seat,
     });
   }
 
