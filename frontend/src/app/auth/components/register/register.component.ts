@@ -35,7 +35,7 @@ export class RegisterComponent implements OnInit {
         (err) => {
           console.log('error', err);
           this.showWarning = true;
-          this.errorDisplay.nativeElement.innerHTML = `<small>${err.error.message}</small>`;
+          this.errorDisplay.nativeElement.innerHTML = `<small>${err.error.message ? err.error.message: "Server Not Found"}</small>`;
           console.log(this.errorDisplay.nativeElement.textContent);
         }
       );

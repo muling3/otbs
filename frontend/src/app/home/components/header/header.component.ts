@@ -12,12 +12,4 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.username = localStorage.getItem('otbs-user') as string;
   }
-
-  logout(): void {
-    localStorage.removeItem("otbs-user");
-    localStorage.removeItem("otbs-id");
-    localStorage.removeItem("otbs-np")
-
-    this.route.navigate(['/auth']);
-  }
 }
