@@ -15,7 +15,7 @@ export class BookingService {
 
    //confirmReservation(Booking)
   confirmBooking(id: String) {
-    return this.http.put<BookingModel>(
+    return this.http.put<{ updated: BookingModel}>(
       this.API_URL + id,
       {}
     );

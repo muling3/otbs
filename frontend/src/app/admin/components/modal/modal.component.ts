@@ -21,7 +21,7 @@ export class ModalComponent implements OnInit {
       console.log('confirm', data);
 
       //ending the booking process
-      this.bookingService.endBooking(data).subscribe((res) => {
+      this.bookingService.endBooking(data.updated).subscribe((res) => {
         console.log('end', res);
       });
     });

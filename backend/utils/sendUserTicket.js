@@ -5,12 +5,12 @@ const nodeMailer = require("nodemailer");
 const TicketDoc = require("pdfkit");
 
 //constants
-const constants = require("../utils/constants/constants")
+const constants = require("../utils/constants/constants");
 
 //load env variables
 require("dotenv").config();
 
-module.exports = async (username, bookingId) => {
+module.exports = async (username, bookingId, passengerList, next) => {
   //booking person mail address
   const user = await User.findOne(
     { username },
@@ -19,12 +19,6 @@ module.exports = async (username, bookingId) => {
 
   //booking details
   const booking = await Placeholder.findById(bookingId);
-
-  //passenger names
-  let passengerNames = [];
-  for (let i = 0; i < booking.passengers.length; i++) {
-    passengerNames.push(booking.passengers[i].pass_name);
-  }
 
   // db.placeholders.updateOne({"_id" : ObjectId("644e85450f0a9779c672eacb")}, { $set: {admin_confirmed: false}})
   // create ticket
@@ -73,7 +67,7 @@ module.exports = async (username, bookingId) => {
   ticket
     .fontSize(6)
     .fillColor("black")
-    .text(`Total Fare Paid:   ${booking.fare * passengerNames.length}`);
+    .text(`Total Fare Paid:   ${booking.fare * passengerList.length}`);
   ticket.moveDown();
   ticket.moveDown();
   ticket
@@ -81,18 +75,37 @@ module.exports = async (username, bookingId) => {
     .fillColor("black")
     .text(`Passenger Details`, { underline: true });
   ticket.moveDown();
-  ticket.fontSize(6).fillColor("black").list(passengerNames);
+  // ticket.fontSize(6).fillColor("black").list(passengerNames);
+
+  //passenger names and their seat numbers
+  for (let i = 0; i < passengerList.length; i++) {
+    ticket
+      .fontSize(6)
+      .fillColor("black")
+      .text(
+        `${i + 1}. Name: ${passengerList[i].passenger_name}  Seat Number:${
+          passengerList[i].seat_number
+        } `
+      );
+    ticket.moveDown();
+  }
+
   ticket.moveDown();
   ticket
     .fontSize(6)
     .fillColor("black")
     .text(`Produced on   ${new Date().toLocaleString()}`);
 
-      //otbs image
+  //otbs image
   ticket.image(
     "/home/mulinge/Programming/web/angular-apps/train-booking/backend/utils/sgrw.png",
-    250, 66, { scale: 1 }
+    250,
+    66,
+    { scale: 1 }
   );
+
+  //ticket no
+  ticket.font("Helvetica-Bold").text(`No: ${bookingId}`, 420, 66);
   ticket.end();
 
   //create email details

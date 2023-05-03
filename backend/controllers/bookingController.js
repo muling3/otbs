@@ -121,9 +121,9 @@ const confirmReservation = asyncErrorHander(async (req, res, next) => {
   let insertIds = await PassengerTicketting.insertMany(entries);
 
   //notify user thru email that there reservation was approved and send ticket
-  await sendUserTicket(updated.booked_by, req.params.id);
+  await sendUserTicket(updated.booked_by, req.params.id, entries, next);
 
-  res.status(200).send(updated);
+  res.status(200).send({updated});
 });
 
 //PLACEHOLDER ENDPOINTS
