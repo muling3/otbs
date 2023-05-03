@@ -5,6 +5,8 @@ const bcrypt = require("bcryptjs");
 const CustomError = require("../utils/CustomError");
 const asyncErrorHander = require("../utils/asyncErrorHandler");
 
+const sendResetPassword = require("../utils/sendResetPassword")
+
 const allUsers = asyncErrorHander(async (req, res, next) => {
   const users = await User.find(
     {},
@@ -105,4 +107,36 @@ const registerUser = asyncErrorHander(async (req, res, next) => {
 
   res.status(201).json({ user: user });
 });
-module.exports = { loginAdmin, loginUser, registerUser, allUsers, getUser };
+
+const resetPassword = asyncErrorHander(async (req, res, next) => {
+  // ensure email has been provided
+  if (!req.body.email) {
+    next(new CustomError("Email address is required", 400));
+  }
+
+  //check if email exists in db
+  const exists = await User.findOne({ email: req.body.email }).exists();
+
+  if (!exists) {
+    next(new CustomError("Invalid email address", 404));
+  }
+
+  // send password reset email
+  // 1. generate new password
+  let password = "*pass1234*";
+
+  // 2. encrypt with bcryptjs
+  let encryptedPassword = bcrypt.hash(password, 10);
+
+  // 3. update existing user password in the db
+  await User.updateOne(
+    { email: req.body.email },
+    { $set: { password: encryptedPassword } }
+  );
+
+  // 4. send actual email
+  await sendResetPassword(req.body.email, password)
+
+  res.status(200).json({status: true, message: "Reset password send"})
+});
+module.exports = { loginAdmin, loginUser, registerUser, allUsers, getUser, resetPassword };
