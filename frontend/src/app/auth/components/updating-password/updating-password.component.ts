@@ -1,24 +1,24 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm} from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-reset',
-  templateUrl: './reset.component.html',
-  styleUrls: ['./reset.component.scss']
+  selector: 'app-updating-password',
+  templateUrl: './updating-password.component.html',
+  styleUrls: ['./updating-password.component.scss']
 })
-export class ResetComponent implements OnInit {
-
+export class UpdatingPasswordComponent implements OnInit {
   @ViewChild('error') errorDisplay!: ElementRef;
   showWarning: Boolean = false;
 
   constructor(private authService: AuthenticationService, private route: Router) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
   resetSubmit(form: NgForm): void{
     if (form.valid) {
-      this.authService.requestingResetPassword(form.value).subscribe(
+      this.authService.resetPassword(form.value).subscribe(
         (d) => {
           if (d) {
             this.route.navigate(['auth/']);
@@ -35,5 +35,4 @@ export class ResetComponent implements OnInit {
       this.errorDisplay.nativeElement.innerHTML = `<small>All fields are required</small>`;
     }
   }
-
 }
