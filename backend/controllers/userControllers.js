@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 const CustomError = require("../utils/CustomError");
 const asyncErrorHander = require("../utils/asyncErrorHandler");
 
-const sendResetPassword = require("../utils/sendResetPassword")
+const sendResetPassword = require("../utils/sendResetPassword");
 
 const allUsers = asyncErrorHander(async (req, res, next) => {
   const users = await User.find(
@@ -72,7 +72,6 @@ const loginUser = asyncErrorHander(async (req, res, next) => {
     next(new CustomError("Invalid credentials", 400));
   }
 
-  //generate token function will be here
   res.status(200).json({ user: user.username });
 });
 
@@ -115,7 +114,7 @@ const resetPassword = asyncErrorHander(async (req, res, next) => {
   }
 
   //check if email exists in db
-  const exists = await User.findOne({ email: req.body.email }).exists();
+  const exists = await User.findOne({ email: req.body.email });
 
   if (!exists) {
     next(new CustomError("Invalid email address", 404));
@@ -126,7 +125,7 @@ const resetPassword = asyncErrorHander(async (req, res, next) => {
   let password = "*pass1234*";
 
   // 2. encrypt with bcryptjs
-  let encryptedPassword = bcrypt.hash(password, 10);
+  let encryptedPassword = await bcrypt.hash(password, 10);
 
   // 3. update existing user password in the db
   await User.updateOne(
@@ -135,8 +134,67 @@ const resetPassword = asyncErrorHander(async (req, res, next) => {
   );
 
   // 4. send actual email
-  await sendResetPassword(req.body.email, password)
+  await sendResetPassword(req.body.email, password, next);
 
-  res.status(200).json({status: true, message: "Reset password send"})
+  res.status(200).json({ status: true, message: "Reset password send" });
 });
-module.exports = { loginAdmin, loginUser, registerUser, allUsers, getUser, resetPassword };
+
+const updateAccountDetails = asyncErrorHander(async (req, res, next) => {
+
+  // check if its a password reset request
+  if (req.body.new_password && req.body.old_password && req.query.email) {
+    const checkUser = await User.findOne({ email: req.query.email });
+    if (!checkUser) {
+      next(new CustomError("Invalid email address", 400));
+    }
+
+    //get the password from the checkUser and compare
+    const matches = await bcrypt.compare(
+      req.body.old_password,
+      checkUser.password
+    );
+    if (!matches) {
+      next(
+        new CustomError(
+          "Invalid request password. Ensure you use the one send to your email",
+          400
+        )
+      );
+    }
+
+    //encrypting the new password
+    let encryptedPassword = await bcrypt.hash(req.body.new_password, 10);
+
+    //updating the db instance
+    const updated = await User.updateOne(
+      { email: req.query.email },
+      { $set: { password: encryptedPassword } }
+    );
+    
+    res
+      .status(200)
+      .json({ status: true, message: "Password reset successfully" });
+    return;
+  } else {
+    //updating the db instance
+    const updated = await User.updateOne(
+      { email: req.query.email },
+      { $set: req.body }
+    );
+
+    res
+      .status(200)
+      .json({ status: true, message: "Account updated successfully" });
+    return;
+  }
+});
+
+module.exports = {
+  loginAdmin,
+  loginUser,
+  registerUser,
+  allUsers,
+  getUser,
+  resetPassword,
+  updateAccountDetails,
+};

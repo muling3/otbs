@@ -6,7 +6,7 @@ require("dotenv").config();
 //constants
 const constants = require("../utils/constants/constants");
 
-module.exports = async (mail_to, new_password) => {
+module.exports = async (mail_to, new_password, next) => {
   //create email details
   const details = {
     from: {
@@ -15,7 +15,10 @@ module.exports = async (mail_to, new_password) => {
     },
     to: mail_to,
     subject: `OTBS Reset Account Request`,
-    html: constants.PASSWORD_RESET_MSG.replace("[[new_password]]", new_password),
+    html: constants.PASSWORD_RESET_MSG.replace(
+      "[[new_password]]",
+      new_password
+    ).replace("[[user_email]]", mail_to),
     replyTo: process.env.EMAIL_USERNAME,
   };
 

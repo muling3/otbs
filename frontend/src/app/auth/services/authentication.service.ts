@@ -35,12 +35,15 @@ export class AuthenticationService {
   }
 
   //password reset
-  resetPassword(options: {
-    new_password: String;
-    old_password: String;
-  }): Observable<{ status: Boolean; message: String }> {
-    return this.http.post<{ status: Boolean; message: String }>(
-      this.API_URL + 'pass-reset',
+  resetPassword(
+    options: {
+      new_password: String;
+      old_password: String;
+    },
+    email: String
+  ): Observable<{ status: Boolean; message: String }> {
+    return this.http.put<{ status: Boolean; message: String }>(
+      this.API_URL + 'update?email=' + email,
       options
     );
   }

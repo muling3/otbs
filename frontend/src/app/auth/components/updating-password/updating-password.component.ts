@@ -15,11 +15,15 @@ export class UpdatingPasswordComponent implements OnInit {
   constructor(private authService: AuthenticationService, private route: Router) { }
 
   ngOnInit(): void {
+    // HOWEVER Later use activated route
+    console.log(this.route.url.split("/")[2].split("?")[1].split("=")[1])
   }
   resetSubmit(form: NgForm): void{
+    console.log(form.value)
     if (form.valid) {
-      this.authService.resetPassword(form.value).subscribe(
+      this.authService.resetPassword(form.value, this.route.url.split("/")[2].split("?")[1].split("=")[1]).subscribe(
         (d) => {
+          console.log(d)
           if (d) {
             this.route.navigate(['auth/']);
             form.reset();
