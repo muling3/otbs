@@ -18,4 +18,20 @@ export class UserService {
       this.API_URL + username
     );
   }
+
+  //update account details
+  updateAccountDetails(
+    options: {
+      firstname: String;
+      lastname: String;
+      username: String;
+      email: String;
+    },
+    email: String
+  ): Observable<{ status: Boolean; message: String }> {
+    return this.http.put<{ status: Boolean; message: String }>(
+      this.API_URL + 'update?email=' + email,
+      options
+    );
+  }
 }

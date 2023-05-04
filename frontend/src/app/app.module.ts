@@ -20,6 +20,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ModalComponent } from './home/components/modal/modal.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +33,7 @@ import { ModalComponent } from './home/components/modal/modal.component';
     HeaderComponent,
     CardsComponent,
     AccountComponent,
-    ModalComponent
+    ModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +41,8 @@ import { ModalComponent } from './home/components/modal/modal.component';
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,6 +1,131 @@
+<!-- //account modal -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <p class="h3 modal-title text-center py-2 text-uppercase">
+      Account Details
+    </p>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div
+      class="d-flex justify-content-center"
+      [ngClass]="{
+        'my-2': showWarning,
+        'px-2': showWarning,
+        'py-2': showWarning,
+        'bg-danger': showWarning,
+        'text-white': showWarning
+      }"
+      #error
+    ></div>
+    <form class="form" #accountForm="ngForm">
+      <div class="row">
+        <div class="form-group mb-3 col-md-6 col-sm-12 col-xs-12">
+          <label for="firstname">Firstname</label>
+          <input
+            type="text"
+            name="firstname"
+            class="form-control"
+            id="firstname"
+            placeholder="Firstname"
+            [value]="userObject.firstname"
+            [(ngModel)]="userObject.firstname"
+            required
+            #firstname="ngModel"
+          />
+          <small
+            *ngIf="firstname.touched && firstname.invalid"
+            style="color: red"
+            >Firstname is required</small
+          >
+        </div>
+        <div class="form-group mb-3 col-md-6 col-sm-12 col-xs-12">
+          <label for="lastname">Lastname</label>
+          <input
+            type="text"
+            name="lastname"
+            class="form-control"
+            id="lastname"
+            placeholder="Lastname"
+            [value]="userObject.lastname"
+            [(ngModel)]="userObject.lastname"
+            required
+            #lastname="ngModel"
+          />
+          <small *ngIf="lastname.touched && lastname.invalid" style="color: red"
+            >Lastname is required</small
+          >
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group mb-3 col-md-6 col-sm-12 col-xs-12">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            name="username"
+            class="form-control"
+            id="username"
+            placeholder="Username"
+            [value]="userObject.username?.toUpperCase()"
+            [(ngModel)]="userObject.username"
+            required
+            #username="ngModel"
+          />
+          <small *ngIf="username.touched && username.invalid" style="color: red"
+            >Username is required</small
+          >
+        </div>
+        <div class="form-group mb-3 col-md-6 col-sm-12 col-xs-12">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            name="email"
+            class="form-control"
+            id="email"
+            placeholder="Email"
+            [value]="userObject.email"
+            [(ngModel)]="userObject.email"
+            email
+            required
+            #email="ngModel"
+          />
+          <small *ngIf="email.touched && email.invalid" style="color: red"
+            >Email is required and must be valid</small
+          >
+        </div>
+      </div>
+    </form>
+    <div class="modal-footer">
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-warning"
+          (click)="modal.close('Close click')"
+        >
+          CLOSE
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="accountForm.invalid"
+          (click)="updateAccountDialog(accountForm)"
+        >
+          UPDATE
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
 <div class="container">
   <app-header></app-header>
-
   <div class="row my-4">
     <div class="col-md-6 col-sm-12 col-xs my-2">
       <div class="card" style="width: 100%">
@@ -18,7 +143,17 @@
           </p>
           <p class="card-text">
             Change Password: &nbsp;&nbsp;
-            <a routerLink="/auth/pass-reset" class="btn btn-primary">Click here</a>
+            <a routerLink="/auth/pass-reset" class="btn btn-primary"
+              >Click here</a
+            >
+          </p>
+          <p class="card-text">
+            <small
+              (click)="openAccountModal(content)"
+              class="text-decoration-underline text-primary"
+            >
+              View and Manage your account
+            </small>
           </p>
         </div>
       </div>
